@@ -1,14 +1,22 @@
 {
-  "name": "",
+  "name": "rehab",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev": "astro dev",
+    "dev": "astro dev --host",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^5.16.0"
+    "@astrojs/sitemap": "^3.6.0",
+    "@tailwindcss/vite": "^4.1.17",
+    "@unhead/schema-org": "^2.0.19",
+    "@unhead/ssr": "^2.0.19",
+    "astro": "^5.16.0",
+    "embla-carousel": "^8.6.0",
+    "embla-carousel-autoplay": "^8.6.0",
+    "tailwindcss": "^4.1.17",
+    "unhead": "^2.0.19"
   }
 }

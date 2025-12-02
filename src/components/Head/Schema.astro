@@ -1,0 +1,14 @@
+---
+import { generateSchemaJSON } from '@/lib/schema';
+
+interface Props {
+  nodes?: any[];
+}
+
+const { nodes = [] } = Astro.props;
+const currentLocale = Astro.currentLocale as 'ar' | 'en' || 'ar';
+
+const schemaHTML = await generateSchemaJSON(nodes, currentLocale);
+---
+
+<Fragment set:html={schemaHTML} />

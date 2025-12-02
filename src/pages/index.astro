@@ -1,16 +1,64 @@
 ---
+import Layout from '@/layouts/Layout.astro';
+import Header from '@/components/Header.astro';
+import Hero from '@/components/Hero.astro';
+import About from '@/components/About.astro';
+import Gallery from '@/components/Gallery.astro';
+import Vision from '@/components/Vision.astro';
+import Services from '@/components/Services.astro';
+import Values from '@/components/Values.astro';
+import Footer from '@/components/Footer.astro';
+import { defineWebPage } from '@unhead/schema-org';
+import { ui } from '@/i18n/ui';
 
+const t = ui.ar;
+const isRtl = true;
+
+const schemaNodes = [
+    defineWebPage({
+        name: 'Welcome to Rehab - Arabic',
+        description: 'هذه الصفحة بالعربية.',
+        inLanguage: 'ar'
+    })
+];
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout title="رحاب" schemaNodes={schemaNodes}>
+    <Header />
+    <main>
+        <Hero />
+        <About />
+        <Gallery />
+        
+        <section id="mission" class="py-20 bg-white text-primary">
+            <div class="container mx-auto px-4">
+                <div class="flex flex-col gap-16 text-center max-w-4xl mx-auto">
+                    <!-- Mission -->
+                    <div dir="rtl" data-aos="fade-up">
+                        <h2 class="text-3xl md:text-4xl font-bold mb-6 text-secondary">{t['mission.title']}</h2>
+                        <div class="h-1 w-24 bg-gold mx-auto mb-8 rounded-full"></div>
+                        <p class="text-xl md:text-2xl leading-relaxed mb-4 text-gray-700">
+                            {t['mission.text1']}
+                        </p>
+                        <p class="text-xl md:text-2xl leading-relaxed text-gray-700">
+                            {t['mission.text2']}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <Values />
+        <Vision />
+        <Services />
+    </main>
+    <Footer />
+</Layout>
+
+<script>
+  // Simple language persistence check
+  const savedLang = localStorage.getItem('rehab-lang-preference');
+  if (savedLang === 'en') {
+    window.location.href = '/en';
+  }
+</script>

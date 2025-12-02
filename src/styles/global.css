@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #0A1950;
+  --color-secondary: #BE3D42;
+  --color-gold: #C5A059;
+  
+  --font-expo: "Expo Arabic", ui-sans-serif, system-ui, sans-serif;
+}
+
+@font-face {
+  font-family: "Expo Arabic";
+  src: url("/fonts/ExpoArabic-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Expo Arabic";
+  src: url("/fonts/ExpoArabic-Book.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Expo Arabic";
+  src: url("/fonts/ExpoArabic-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Expo Arabic";
+  src: url("/fonts/ExpoArabic-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Expo Arabic";
+  src: url("/fonts/ExpoArabic-Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+html {
+  font-family: var(--font-expo);
+}

@@ -1,0 +1,113 @@
+---
+import { ui, defaultLang } from '../i18n/ui';
+
+const currentLocale = Astro.currentLocale || defaultLang;
+const t = ui[currentLocale as keyof typeof ui];
+const isRtl = currentLocale === 'ar';
+
+// Define icons first to map them easily
+const icons = [
+  // 0: Pilgrims (Users/Community)
+  `<svg xmlns="http://www.w3.org/2000/svg" class="w-full h-full" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>`,
+  
+  // 1: Catering (Food/Utensils)
+  `<svg xmlns="http://www.w3.org/2000/svg" class="w-full h-full" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>`,
+  
+  // 2: Logistics (Truck/Transport)
+  `<svg xmlns="http://www.w3.org/2000/svg" class="w-full h-full" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0" /></svg>`,
+  
+  // 3: Marketing (Megaphone/Growth)
+  `<svg xmlns="http://www.w3.org/2000/svg" class="w-full h-full" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" /></svg>`,
+  
+  // 4: Consulting (Lightbulb/Ideas)
+  `<svg xmlns="http://www.w3.org/2000/svg" class="w-full h-full" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>`,
+  
+  // 5: Tourism (Map/Location)
+  `<svg xmlns="http://www.w3.org/2000/svg" class="w-full h-full" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`,
+  
+  // 6: Management (Gears/Settings)
+  `<svg xmlns="http://www.w3.org/2000/svg" class="w-full h-full" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>`,
+  
+  // 7: Real Estate (Building/Development)
+  `<svg xmlns="http://www.w3.org/2000/svg" class="w-full h-full" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>`,
+];
+
+const services = [
+  { titleKey: 'services.list.0', descKey: 'services.desc.0', iconIndex: 0 }, // Pilgrims -> Users
+  { titleKey: 'services.list.1', descKey: 'services.desc.1', iconIndex: 1 }, // Catering -> Food Cart
+  { titleKey: 'services.list.2', descKey: 'services.desc.2', iconIndex: 2 }, // Logistics -> Truck
+  { titleKey: 'services.list.3', descKey: 'services.desc.3', iconIndex: 3 }, // Marketing -> Chart
+  { titleKey: 'services.list.4', descKey: 'services.desc.4', iconIndex: 4 }, // Consulting -> Lightbulb
+  { titleKey: 'services.list.5', descKey: 'services.desc.5', iconIndex: 5 }, // Tourism -> Globe
+  { titleKey: 'services.list.6', descKey: 'services.desc.6', iconIndex: 6 }, // Management -> Gears
+  { titleKey: 'services.list.7', descKey: 'services.desc.7', iconIndex: 7 }, // Real Estate -> Building
+];
+---
+
+<section id="services" class="py-20 bg-gray-50">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-16" data-aos="fade-up">
+      <h2 class="text-4xl font-bold text-primary mb-4">{t['services.title']}</h2>
+      <div class="h-1 w-24 bg-secondary mx-auto rounded-full"></div>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {services.map((service, index) => {
+        // Alternating styles
+        const isEven = index % 2 === 0;
+        const accentColor = isEven ? 'text-primary' : 'text-secondary';
+        const hoverBg = isEven ? 'group-hover:bg-primary' : 'group-hover:bg-secondary';
+        
+        return (
+          <div
+            data-aos="fade-up"
+            data-aos-delay={index * 100}
+            role="article"
+            aria-labelledby={`service-title-${index}`}
+          >
+            <div 
+              class="group bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:-translate-y-2 flex flex-col h-full border border-gray-100 overflow-hidden"
+            >
+              {/* Top decorative line */}
+              <div class={`h-1 w-full bg-gradient-to-r ${isEven ? 'from-primary to-primary/60' : 'from-secondary to-secondary/60'} transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500`}></div>
+
+              <div class="p-8 flex flex-col flex-grow items-center text-center">
+                 {/* Icon Container */}
+                 <div class={`w-16 h-16 mb-6 rounded-2xl flex items-center justify-center transition-colors duration-300 ease-in-out bg-gray-50 ${accentColor} ${hoverBg} group-hover:text-white shadow-sm`}>
+                    <div class="w-8 h-8">
+                      <Fragment set:html={icons[service.iconIndex]} />
+                    </div>
+                 </div>
+                 
+                 <h3 
+                   id={`service-title-${index}`} 
+                   class="text-xl font-bold text-gray-900 mb-3 group-hover:text-primary transition-colors"
+                 >
+                   {t[service.titleKey as keyof typeof t]}
+                 </h3>
+                 
+                 <p class="text-gray-600 text-sm leading-relaxed mb-6 flex-grow">
+                   {t[service.descKey as keyof typeof t]}
+                 </p>
+
+                 {/* Action Button - Subtle by default, prominent on hover */}
+                 <a 
+                   href="#contact" 
+                   class={`inline-flex items-center justify-center px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 ease-in-out
+                     bg-transparent border ${isEven ? 'border-primary text-primary' : 'border-secondary text-secondary'} 
+                     ${isEven ? 'hover:bg-primary' : 'hover:bg-secondary'} hover:text-white hover:shadow-md`}
+                   aria-label={`${isRtl ? 'قراءة المزيد عن' : 'Read more about'} ${t[service.titleKey as keyof typeof t]}`}
+                 >
+                   <span>{isRtl ? 'قراءة المزيد...' : 'Read More...'}</span>
+                   <svg xmlns="http://www.w3.org/2000/svg" class={`h-4 w-4 ${isRtl ? 'mr-2 rotate-180' : 'ml-2'} transition-transform group-hover:translate-x-1`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                   </svg>
+                 </a>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</section>

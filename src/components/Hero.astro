@@ -1,0 +1,51 @@
+---
+import { ui, defaultLang } from '../i18n/ui';
+import { Image } from 'astro:assets';
+import heroBg from '../assets/DSC08369.jpg';
+
+const currentLocale = Astro.currentLocale || defaultLang;
+const t = ui[currentLocale as keyof typeof ui];
+---
+<section class="relative min-h-screen flex items-center justify-center overflow-hidden bg-primary text-white py-20">
+  <div class="absolute inset-0 z-0">
+    <Image 
+      src={heroBg} 
+      alt="Hero Background" 
+      class="w-full h-full object-cover opacity-40"
+      widths={[640, 768, 1024, 1280, 1536, heroBg.width]}
+      sizes="100vw"
+    />
+    <div class="absolute inset-0 bg-gradient-to-b from-primary/50 to-primary"></div>
+  </div>
+
+  <div class="relative z-10 px-4 max-w-7xl mx-auto mt-16">
+    <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+      <!-- Logo Column -->
+      <div class="flex justify-center md:justify-center" data-aos="fade-down" data-aos-duration="1000">
+        <img src="/logowhte.svg" alt="Rehab Logo" class="h-30 md:h-32 lg:h-48 object-contain drop-shadow-2xl" />
+      </div>
+      
+      <!-- Content Column -->
+      <div class="text-center md:text-start space-y-8">
+        <div class="space-y-4" data-aos="fade-up" data-aos-delay="200">
+          <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
+            <span class="block text-white drop-shadow-lg">{t['hero.title_company']}</span>
+          </h1>
+          <h2 class="text-2xl md:text-4xl text-gold font-medium drop-shadow-md">
+            {t['hero.subtitle']}
+          </h2>
+        </div>
+
+        <p class="text-xl md:text-2xl text-gray-100 leading-relaxed max-w-lg mx-auto md:mx-0 drop-shadow" data-aos="fade-up" data-aos-delay="400">
+           {t['hero.description']}
+        </p>
+        
+        <div class="flex justify-center md:justify-start">
+          <a href="#vision" class="bg-secondary hover:bg-red-700 text-white px-8 py-4 rounded-full font-bold text-lg transition-all transform hover:scale-105 shadow-lg hover:shadow-xl">
+            {t['hero.cta']}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

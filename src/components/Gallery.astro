@@ -1,0 +1,131 @@
+---
+import { Image } from 'astro:assets';
+import { defaultLang } from '../i18n/ui';
+import img1 from '../assets/team/DSC00736.jpg';
+import img2 from '../assets/team/DSC00025.jpg';
+import img3 from '../assets/team/DSC01116.jpg';
+import img4 from '../assets/team/DSC01135.jpg';
+import img5 from '../assets/team/DSC09476.jpg';
+import img6 from "../assets/team/DSC00136.jpg"
+
+const currentLocale = Astro.currentLocale || defaultLang;
+const isRtl = currentLocale === 'ar';
+
+const images = [
+  img1,
+  img2,
+  img3,
+  img4,
+  img5,
+  img6
+];
+---
+
+<section class="pb-9 bg-white" id="gallery">
+  <div class="container mx-auto px-4">
+    <div class="relative group" dir={isRtl ? 'rtl' : 'ltr'} data-aos="fade-up">
+      <!-- Prev Button -->
+      <button 
+        class={`embla__prev absolute top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/80 shadow-md flex items-center justify-center hover:bg-primary hover:text-white transition-all duration-300 opacity-0 group-hover:opacity-100 ${isRtl ? 'right-4' : 'left-4'}`}
+        aria-label="Previous slide"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class={`h-6 w-6 ${isRtl ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+
+      <!-- Next Button -->
+      <button 
+        class={`embla__next absolute top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/80 shadow-md flex items-center justify-center hover:bg-primary hover:text-white transition-all duration-300 opacity-0 group-hover:opacity-100 ${isRtl ? 'left-4' : 'right-4'}`}
+        aria-label="Next slide"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class={`h-6 w-6 ${isRtl ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+
+      <div class="embla overflow-hidden cursor-grab active:cursor-grabbing">
+        <div class="embla__container flex -ms-4">
+          {images.map((image, index) => (
+            <div class="embla__slide flex-[0_0_100%] lg:flex-[0_0_33.333%] min-w-0 ps-4">
+              <div class="relative group overflow-hidden rounded-xl shadow-lg h-64 md:h-80">
+                <Image 
+                  src={image} 
+                  alt={`Rehab Team Image ${index + 1}`} 
+                  class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  widths={[400, 800, image.width]}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                />
+                <div class="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors duration-300"></div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+    
+    <!-- Dots Navigation -->
+    <div class="embla__dots flex justify-center gap-2 mt-8"></div>
+  </div>
+</section>
+
+<script>
+  import EmblaCarousel from 'embla-carousel'
+  import Autoplay from 'embla-carousel-autoplay'
+
+  const emblaNode = document.querySelector('.embla') as HTMLElement
+  const dotsNode = document.querySelector('.embla__dots') as HTMLElement
+  const prevBtn = document.querySelector('.embla__prev') as HTMLElement
+  const nextBtn = document.querySelector('.embla__next') as HTMLElement
+
+  if (emblaNode) {
+    // Get direction from the parent wrapper or the embla node itself if it had it
+    const wrapper = emblaNode.closest('[dir]')
+    const direction = (wrapper && wrapper.getAttribute('dir') === 'rtl') ? 'rtl' : 'ltr'
+    
+    const options = { loop: true, align: 'start', direction: direction as 'ltr' | 'rtl' }
+    const plugins = [Autoplay({ delay: 4000, stopOnInteraction: false })]
+    //@ts-expect-error
+    const emblaApi = EmblaCarousel(emblaNode, options, plugins)
+
+    // Dots Logic
+    if (dotsNode) {
+      const addDots = () => {
+        dotsNode.innerHTML = ''
+        emblaApi.scrollSnapList().forEach((_, index) => {
+          const dot = document.createElement('button')
+          dot.classList.add('embla__dot', 'w-3', 'h-3', 'rounded-full', 'bg-gray-300', 'transition-all', 'duration-300', 'hover:bg-primary/60')
+          dot.setAttribute('aria-label', `Go to slide ${index + 1}`)
+          dot.addEventListener('click', () => emblaApi.scrollTo(index))
+          dotsNode.appendChild(dot)
+        })
+      }
+
+      const selectDot = () => {
+        const selected = emblaApi.selectedScrollSnap()
+        const dots = dotsNode.querySelectorAll('.embla__dot')
+        dots.forEach((dot, index) => {
+          if (index === selected) {
+            dot.classList.remove('bg-gray-300')
+            dot.classList.add('bg-primary', 'w-6')
+          } else {
+            dot.classList.add('bg-gray-300')
+            dot.classList.remove('bg-primary', 'w-6')
+          }
+        })
+      }
+
+      emblaApi.on('init', addDots)
+      emblaApi.on('reInit', addDots)
+      emblaApi.on('init', selectDot)
+      emblaApi.on('reInit', selectDot)
+      emblaApi.on('select', selectDot)
+    }
+
+    // Arrows Logic
+    if (prevBtn && nextBtn) {
+      prevBtn.addEventListener('click', () => emblaApi.scrollPrev())
+      nextBtn.addEventListener('click', () => emblaApi.scrollNext())
+    }
+  }
+</script>

@@ -1,0 +1,32 @@
+---
+import { ui, defaultLang } from '../i18n/ui';
+
+const currentLocale = Astro.currentLocale || defaultLang;
+const t = ui[currentLocale as keyof typeof ui];
+const isRtl = currentLocale === 'ar';
+---
+<section id="vision" class="relative bg-primary text-white py-20 overflow-hidden">
+  <!-- Background Image with Overlay -->
+  <div class="absolute inset-0 z-0 opacity-10 pointer-events-none">
+     <img src="/images/DSC00178.jpg" alt="Background" class="w-full h-full object-cover" />
+     <div class="absolute inset-0 bg-gradient-to-b from-primary/80 to-primary"></div>
+  </div>
+  
+  <div class="container mx-auto px-4 relative z-10">
+
+    <div class="grid justify-center">
+      <!-- Centered Content -->
+      <div class="text-center max-w-4xl mx-auto" dir={isRtl ? 'rtl' : 'ltr'} data-aos="zoom-in" data-aos-duration="800">
+        <h2 class="text-4xl md:text-5xl font-bold mb-6">{t['vision.title']}</h2>
+        
+        <!-- Centered Decorative Line -->
+        <div class="h-1 w-24 bg-gold mx-auto mb-8 rounded-full"></div>
+        
+        <p class="text-xl md:text-2xl leading-relaxed text-gray-100">
+          {t['vision.text']}
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
