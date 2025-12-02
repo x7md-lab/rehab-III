@@ -51,11 +51,11 @@ export const ui = {
     'footer.address': 'الموقع',
     'footer.email': 'البريد الإلكتروني',
     'footer.phone': 'الهاتف',
-    'footer.links': 'روابط سريعة',
+    'footer.links': 'روابط',
     'footer.rights': 'جميع الحقوق محفوظة لشركة رحاب للخدمات والتسويق المحدودة © 2025',
     'contact.phone_value': '+966561374316',
     'contact.email_value': 'info@rehabco.sa',
-    'contact.address_value': 'مكة المكرمة'
+    'contact.address_value': 'مكة المكرمة - الرصيفة - الجروشي مول'
   },
   en: {
     'nav.home': 'Home',
@@ -94,10 +94,10 @@ export const ui = {
     'footer.address': 'Address',
     'footer.email': 'Email',
     'footer.phone': 'Phone',
-    'footer.links': 'Quick Links',
+    'footer.links': 'Links',
     'footer.rights': 'All rights reserved to Rehab Services and Marketing Co. Ltd. © 2025',
     'contact.phone_value': '+966561374316',
     'contact.email_value': 'info@rehabco.sa',
-    'contact.address_value': 'Makkah'
+    'contact.address_value': 'Makkah - Al Rusaifah - Al Jaroushi Mall'
   },
 } as const;
