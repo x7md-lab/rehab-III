@@ -9,7 +9,7 @@ const langLink = currentLocale === 'ar' ? '/en' : '/';
 const langLabel = currentLocale === 'ar' ? 'English' : 'العربية';
 ---
 
-<header class="sticky top-0 z-50 bg-primary text-white py-4 shadow-md">
+<header class="sticky top-0 z-50 bg-black/20 backdrop-blur-md text-white py-4 shadow-md">
   <div class="container mx-auto px-4 flex justify-between items-center">
     <a href={homeLink} class="flex items-center">
       <img src="logowhte.svg" alt="Rehab Logo" class="h-12" />
@@ -39,7 +39,7 @@ const langLabel = currentLocale === 'ar' ? 'English' : 'العربية';
   </div>
 
   <!-- Mobile Menu -->
-  <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-primary shadow-lg border-t border-white/10">
+  <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-black/90 backdrop-blur-md shadow-lg border-t border-white/10">
     <nav class="flex flex-col p-4 space-y-4 text-center">
       <a href={homeLink} class="block py-2 hover:text-secondary transition-colors border-b border-white/5">{t['nav.home']}</a>
       <a href="#vision" class="block py-2 hover:text-secondary transition-colors border-b border-white/5">{t['nav.vision']}</a>

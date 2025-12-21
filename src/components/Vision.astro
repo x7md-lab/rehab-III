@@ -5,11 +5,11 @@ const currentLocale = Astro.currentLocale || defaultLang;
 const t = ui[currentLocale as keyof typeof ui];
 const isRtl = currentLocale === 'ar';
 ---
-<section id="vision" class="relative bg-primary text-white py-20 overflow-hidden">
+<section id="vision" class="relative text-white py-20 overflow-hidden">
   <!-- Background Image with Overlay -->
   <div class="absolute inset-0 z-0 opacity-10 pointer-events-none">
      <img src="/images/DSC00178.jpg" alt="Background" class="w-full h-full object-cover" />
-     <div class="absolute inset-0 bg-gradient-to-b from-primary/80 to-primary"></div>
+     <div class="absolute inset-0 bg-gradient-to-b from-black/20 to-black/40"></div>
   </div>
   
   <div class="container mx-auto px-4 relative z-10">

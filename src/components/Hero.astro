@@ -6,7 +6,7 @@ import heroBg from '../assets/DSC08369.jpg';
 const currentLocale = Astro.currentLocale || defaultLang;
 const t = ui[currentLocale as keyof typeof ui];
 ---
-<section class="relative min-h-screen flex items-center justify-center overflow-hidden bg-primary text-white py-20">
+<section class="relative min-h-screen flex items-center justify-center overflow-hidden text-white py-20">
   <div class="absolute inset-0 z-0">
     <Image 
       src={heroBg} 
@@ -15,7 +15,7 @@ const t = ui[currentLocale as keyof typeof ui];
       widths={[640, 768, 1024, 1280, 1536, heroBg.width]}
       sizes="100vw"
     />
-    <div class="absolute inset-0 bg-gradient-to-b from-primary/50 to-primary"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-black/30 to-black/60"></div>
   </div>
 
   <div class="relative z-10 px-4 max-w-7xl mx-auto mt-16">

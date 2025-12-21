@@ -10,36 +10,36 @@ const values = [
     key: 'values.item5', 
     iconIndex: 4, 
     // Dedicated Service (Featured) - Primary Brand Color
-    style: 'bg-secondary text-white border-primary',
+    style: 'bg-secondary/10 backdrop-blur-md text-white border-primary',
     iconStyle: 'bg-white/10 text-gold group-hover:bg-white group-hover:text-primary'
   },
   { 
     key: 'values.item1', 
     iconIndex: 0, 
     // Quality - Gold Theme
-    style: 'bg-white text-gray-900 border-gray-100 hover:border-gold',
-    iconStyle: 'bg-gray-50 text-gold group-hover:bg-gold group-hover:text-white shadow-sm'
+    style: 'bg-white/10 backdrop-blur-md text-white border-white/10 hover:border-gold',
+    iconStyle: 'bg-white/5 text-gold group-hover:bg-gold group-hover:text-white shadow-sm'
   },
   { 
     key: 'values.item2', 
     iconIndex: 1, 
     // Safety - Secondary Theme (Red)
-    style: 'bg-white text-gray-900 border-gray-100 hover:border-secondary',
-    iconStyle: 'bg-gray-50 text-secondary group-hover:bg-secondary group-hover:text-white shadow-sm'
+    style: 'bg-white/10 backdrop-blur-md text-white border-white/10 hover:border-secondary',
+    iconStyle: 'bg-white/5 text-secondary group-hover:bg-secondary group-hover:text-white shadow-sm'
   },
   { 
     key: 'values.item3', 
     iconIndex: 2, 
     // Transparency - Primary Theme (Blue)
-    style: 'bg-white text-gray-900 border-gray-100 hover:border-primary',
-    iconStyle: 'bg-gray-50 text-primary group-hover:bg-primary group-hover:text-white shadow-sm'
+    style: 'bg-white/10 backdrop-blur-md text-white border-white/10 hover:border-primary',
+    iconStyle: 'bg-white/5 text-primary group-hover:bg-primary group-hover:text-white shadow-sm'
   },
   { 
     key: 'values.item4', 
     iconIndex: 3, 
     // Innovation - Black Theme
-    style: 'bg-white text-gray-900 border-gray-100 hover:border-black',
-    iconStyle: 'bg-gray-50 text-black group-hover:bg-black group-hover:text-white shadow-sm'
+    style: 'bg-white/10 backdrop-blur-md text-white border-white/10 hover:border-black',
+    iconStyle: 'bg-white/5 text-white group-hover:bg-black group-hover:text-white shadow-sm'
   },
 ];
 
@@ -61,10 +61,10 @@ const icons = [
 ];
 ---
 
-<section class="py-20 bg-gray-50">
+<section class="py-20">
   <div class="container mx-auto px-4">
     <div class="text-center mb-16" data-aos="fade-up">
-      <h2 class="text-3xl md:text-4xl font-bold mb-6 text-secondary">{t['values.title']}</h2>
+      <h2 class="text-3xl md:text-4xl font-bold mb-6 text-white">{t['values.title']}</h2>
       <div class="h-1 w-24 bg-gold mx-auto rounded-full"></div>
     </div>
 

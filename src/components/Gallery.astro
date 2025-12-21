@@ -21,7 +21,7 @@ const images = [
 ];
 ---
 
-<section class="pb-9 bg-white" id="gallery">
+<section class="pb-9" id="gallery">
   <div class="container mx-auto px-4">
     <div class="relative group" dir={isRtl ? 'rtl' : 'ltr'} data-aos="fade-up">
       <!-- Prev Button -->
@@ -107,10 +107,10 @@ const images = [
         dots.forEach((dot, index) => {
           if (index === selected) {
             dot.classList.remove('bg-gray-300')
-            dot.classList.add('bg-primary', 'w-6')
+            dot.classList.add('bg-gold', 'w-6')
           } else {
             dot.classList.add('bg-gray-300')
-            dot.classList.remove('bg-primary', 'w-6')
+            dot.classList.remove('bg-gold', 'w-6')
           }
         })
       }

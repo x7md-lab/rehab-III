@@ -44,18 +44,18 @@ const services = [
 ];
 ---
 
-<section id="services" class="py-20 bg-gray-50">
+<section id="services" class="py-20">
   <div class="container mx-auto px-4">
     <div class="text-center mb-16" data-aos="fade-up">
-      <h2 class="text-4xl font-bold text-primary mb-4">{t['services.title']}</h2>
-      <div class="h-1 w-24 bg-secondary mx-auto rounded-full"></div>
+      <h2 class="text-4xl font-bold text-white mb-4">{t['services.title']}</h2>
+      <div class="h-1 w-24 bg-gold mx-auto rounded-full"></div>
     </div>
 
     <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
       {services.map((service, index) => {
         // Alternating styles
         const isEven = index % 2 === 0;
-        const accentColor = isEven ? 'text-primary' : 'text-secondary';
+        const accentColor = 'text-gold';
         const hoverBg = isEven ? 'group-hover:bg-primary' : 'group-hover:bg-secondary';
         
         return (
@@ -66,14 +66,14 @@ const services = [
             aria-labelledby={`service-title-${index}`}
           >
             <div 
-              class="group bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:-translate-y-2 flex flex-col h-full border border-gray-100 overflow-hidden"
+              class="group bg-white/10 backdrop-blur-md rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:-translate-y-2 flex flex-col h-full border border-white/10 overflow-hidden"
             >
               {/* Top decorative line */}
               <div class={`h-1 w-full bg-gradient-to-r ${isEven ? 'from-primary to-primary/60' : 'from-secondary to-secondary/60'} transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500`}></div>
 
               <div class="p-8 flex flex-col flex-grow items-center text-center">
                  {/* Icon Container */}
-                 <div class={`w-16 h-16 mb-6 rounded-2xl flex items-center justify-center transition-colors duration-300 ease-in-out bg-gray-50 ${accentColor} ${hoverBg} group-hover:text-white shadow-sm`}>
+                 <div class={`w-16 h-16 mb-6 rounded-2xl flex items-center justify-center transition-colors duration-300 ease-in-out bg-white/5 ${accentColor} ${hoverBg} group-hover:text-white shadow-sm`}>
                     <div class="w-8 h-8">
                       <Fragment set:html={icons[service.iconIndex]} />
                     </div>
@@ -81,12 +81,12 @@ const services = [
                  
                  <h3 
                    id={`service-title-${index}`} 
-                   class="text-xl font-bold text-gray-900 mb-3 group-hover:text-primary transition-colors"
+                   class="text-xl font-bold text-white mb-3 group-hover:text-gold transition-colors"
                  >
                    {t[service.titleKey as keyof typeof t]}
                  </h3>
                  
-                 <p class="text-gray-600 text-sm leading-relaxed mb-6 flex-grow">
+                 <p class="text-white text-sm leading-relaxed mb-6 flex-grow">
                    {t[service.descKey as keyof typeof t]}
                  </p>
 
@@ -94,8 +94,8 @@ const services = [
                  <a 
                    href="#contact" 
                    class={`inline-flex items-center justify-center px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 ease-in-out
-                     bg-transparent border ${isEven ? 'border-primary text-primary' : 'border-secondary text-secondary'} 
-                     ${isEven ? 'hover:bg-primary' : 'hover:bg-secondary'} hover:text-white hover:shadow-md`}
+                     bg-transparent border border-white/20 text-white
+                     ${isEven ? 'hover:bg-primary hover:border-primary' : 'hover:bg-secondary hover:border-secondary'} hover:text-white hover:shadow-md`}
                    aria-label={`${isRtl ? 'قراءة المزيد عن' : 'Read more about'} ${t[service.titleKey as keyof typeof t]}`}
                  >
                    <span>{isRtl ? 'قراءة المزيد...' : 'Read More...'}</span>
