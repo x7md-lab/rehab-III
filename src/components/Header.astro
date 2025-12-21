@@ -39,15 +39,27 @@ const langLabel = currentLocale === 'ar' ? 'English' : 'العربية';
   </div>
 
   <!-- Mobile Menu -->
-  <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-black/90 backdrop-blur-md shadow-lg border-t border-white/10">
-    <nav class="flex flex-col p-4 space-y-4 text-center">
-      <a href={homeLink} class="block py-2 hover:text-secondary transition-colors border-b border-white/5">{t['nav.home']}</a>
-      <a href="#vision" class="block py-2 hover:text-secondary transition-colors border-b border-white/5">{t['nav.vision']}</a>
-      <a href="#services" class="block py-2 hover:text-secondary transition-colors border-b border-white/5">{t['nav.services']}</a>
-      <a href="#contact" class="block py-2 hover:text-secondary transition-colors">{t['nav.contact']}</a>
-    </nav>
-  </div>
 </header>
+
+<div id="mobile-menu" class="fixed inset-0 z-[100] bg-[#0a1950]/95 backdrop-blur-2xl transition-all duration-500 ease-in-out transform translate-x-full md:hidden flex flex-col items-center justify-center">
+  
+  <button id="close-menu-btn" class="absolute top-6 left-6 p-2 text-white/60 hover:text-white transition-colors" aria-label="Close Menu">
+     <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+     </svg>
+  </button>
+
+  <nav class="flex flex-col space-y-8 text-center">
+    <a href={homeLink} class="text-3xl md:text-4xl font-bold text-white hover:text-gold transition-colors transform hover:scale-110 duration-300">{t['nav.home']}</a>
+    <a href="#vision" class="text-3xl md:text-4xl font-bold text-white hover:text-gold transition-colors transform hover:scale-110 duration-300">{t['nav.vision']}</a>
+    <a href="#services" class="text-3xl md:text-4xl font-bold text-white hover:text-gold transition-colors transform hover:scale-110 duration-300">{t['nav.services']}</a>
+    <a href="#contact" class="text-3xl md:text-4xl font-bold text-white hover:text-gold transition-colors transform hover:scale-110 duration-300">{t['nav.contact']}</a>
+  </nav>
+  
+  <div class="absolute bottom-12 opacity-30">
+      <img src="logowhte.svg" alt="Rehab Logo" class="h-16 grayscale" />
+  </div>
+</div>
 
 <script>
   // Language Switcher Logic
@@ -61,19 +73,28 @@ const langLabel = currentLocale === 'ar' ? 'English' : 'العربية';
 
   // Mobile Menu Logic
   const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+  const closeMenuBtn = document.getElementById('close-menu-btn');
   const mobileMenu = document.getElementById('mobile-menu');
 
   if (mobileMenuBtn && mobileMenu) {
     mobileMenuBtn.addEventListener('click', () => {
-      mobileMenu.classList.toggle('hidden');
+      mobileMenu.classList.remove('translate-x-full');
+      document.body.style.overflow = 'hidden'; // Prevent scrolling
     });
+
+    const closeMenu = () => {
+      mobileMenu.classList.add('translate-x-full');
+      document.body.style.overflow = ''; // Restore scrolling
+    };
+
+    if (closeMenuBtn) {
+        closeMenuBtn.addEventListener('click', closeMenu);
+    }
 
     // Close menu when clicking a link
     const mobileLinks = mobileMenu.querySelectorAll('a');
     mobileLinks.forEach(link => {
-      link.addEventListener('click', () => {
-        mobileMenu.classList.add('hidden');
-      });
+      link.addEventListener('click', closeMenu);
     });
   }
 </script>
