@@ -8,7 +8,7 @@ import Vision from '@/components/Vision.astro';
 import Services from '@/components/Services.astro';
 import Values from '@/components/Values.astro';
 import Footer from '@/components/Footer.astro';
-import { defineWebPage } from '@unhead/schema-org';
+import { defineWebPage, defineLocalBusiness } from '@unhead/schema-org';
 import { ui } from '@/i18n/ui';
 
 const t = ui.ar;
@@ -19,24 +19,45 @@ const schemaNodes = [
         name: 'Welcome to Rehab - Arabic',
         description: 'هذه الصفحة بالعربية.',
         inLanguage: 'ar'
+    }),
+    defineLocalBusiness({
+        name: 'شركة رحاب للخدمات والتسويق المحدودة',
+        image: '/logowhte.svg',
+        priceRange: '$$',
+        address: {
+            streetAddress: 'الجروشي مول',
+            addressLocality: 'مكة المكرمة',
+            addressCountry: 'SA'
+        },
+        makesOffer: [
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "التموين والإعاشة" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "المقاولات والتحضيرات" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "الإدارة والتشغيل" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "الخدمات اللوجستية" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "تقديم الاستشارات الفنية والتشغيلية" } }
+        ]
     })
 ];
 ---
 
 <Layout title="رحاب" schemaNodes={schemaNodes}>
     <Header />
-    <main>
+    <main class="space-y-8 md:space-y-12 pb-20">
         <Hero />
-        <About />
-        <Gallery />
         
-        <section id="mission" class="py-20 text-white">
-            <div class="container mx-auto px-4">
-                <div class="flex flex-col gap-16 text-center max-w-4xl mx-auto">
-                    <!-- Mission -->
-                    <div dir="rtl" data-aos="fade-up">
-                        <h2 class="text-3xl md:text-4xl font-bold mb-6 text-white">{t['mission.title']}</h2>
-                        <div class="h-1 w-24 bg-gold mx-auto mb-8 rounded-full"></div>
+        <!-- Smart Grid Layout for Content Sections -->
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 auto-rows-fr">
+                <!-- Row 1: About & Gallery -->
+                <About />
+                <Gallery />
+                
+                <!-- Row 2: Mission & Vision -->
+                <!-- Mission Section (Inline Card) -->
+                <div id="mission" class="h-full flex flex-col justify-center bg-black/30 backdrop-blur-xl rounded-3xl p-8 md:p-12 border border-white/10" data-aos="fade-up">
+                    <div class="text-center md:text-start" dir="rtl">
+                        <h2 class="text-3xl md:text-4xl font-bold mb-8 text-white">{t['mission.title']}</h2>
+                        <div class="h-1 w-24 bg-gold mx-auto md:mx-0 mb-8 rounded-full"></div>
                         <p class="text-xl md:text-2xl leading-relaxed mb-4 text-gray-100">
                             {t['mission.text1']}
                         </p>
@@ -45,11 +66,12 @@ const schemaNodes = [
                         </p>
                     </div>
                 </div>
+
+                <Vision />
             </div>
-        </section>
+        </div>
 
         <Values />
-        <Vision />
         <Services />
     </main>
     <Footer />

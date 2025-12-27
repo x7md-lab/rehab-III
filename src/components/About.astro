@@ -6,13 +6,12 @@ const t = ui[currentLocale as keyof typeof ui];
 const isRtl = currentLocale === 'ar';
 ---
 
-<section class="py-20 text-white">
-  <div class="container mx-auto px-4">
-    <div class={`max-w-4xl mx-auto text-center ${isRtl ? 'font-arabic' : ''}`} data-aos="fade-up">
-      <h2 class="text-3xl md:text-4xl font-bold mb-8 text-white">{t['about.title']}</h2>
-      <p class="text-xl md:text-2xl leading-relaxed text-gray-100">
-        {t['about.text']}
-      </p>
-    </div>
+<div class="h-full flex flex-col justify-center bg-black/30 backdrop-blur-xl rounded-3xl p-8 md:p-12 border border-white/10" data-aos="fade-up">
+  <div class={`text-center md:text-start ${isRtl ? 'font-arabic' : ''}`}>
+    <h2 class="text-3xl md:text-4xl font-bold mb-8 text-white">{t['about.title']}</h2>
+    <div class="h-1 w-24 bg-gold mx-auto md:mx-0 mb-8 rounded-full"></div>
+    <p class="text-xl md:text-2xl leading-relaxed text-gray-100">
+      {t['about.text']}
+    </p>
   </div>
-</section>
+</div>

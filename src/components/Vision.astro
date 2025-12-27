@@ -5,28 +5,23 @@ const currentLocale = Astro.currentLocale || defaultLang;
 const t = ui[currentLocale as keyof typeof ui];
 const isRtl = currentLocale === 'ar';
 ---
-<section id="vision" class="relative text-white py-20 overflow-hidden">
+<div id="vision" class="relative h-full overflow-hidden rounded-3xl border border-white/10 group" data-aos="fade-up">
   <!-- Background Image with Overlay -->
-  <div class="absolute inset-0 z-0 opacity-10 pointer-events-none">
+  <div class="absolute inset-0 z-0 opacity-20 pointer-events-none transition-transform duration-700 group-hover:scale-110">
      <!-- <img src="/images/DSC00178.jpg" alt="Background" class="w-full h-full object-cover" /> -->
-     <div class="absolute inset-0 bg-gradient-to-b from-black/20 to-black/40"></div>
+     <div class="absolute inset-0 bg-gradient-to-br from-primary/30 to-secondary/30"></div>
   </div>
   
-  <div class="container mx-auto px-4 relative z-10">
-
-    <div class="grid justify-center">
-      <!-- Centered Content -->
-      <div class="text-center max-w-4xl mx-auto" dir={isRtl ? 'rtl' : 'ltr'} data-aos="zoom-in" data-aos-duration="800">
-        <h2 class="text-4xl md:text-5xl font-bold mb-6">{t['vision.title']}</h2>
-        
-        <!-- Centered Decorative Line -->
-        <div class="h-1 w-24 bg-gold mx-auto mb-8 rounded-full"></div>
-        
-        <p class="text-xl md:text-2xl leading-relaxed text-gray-100">
-          {t['vision.text']}
-        </p>
-      </div>
+  <div class="relative z-10 h-full flex flex-col justify-center p-8 md:p-12 bg-black/30 backdrop-blur-xl">
+    <div class="text-center md:text-start" dir={isRtl ? 'rtl' : 'ltr'}>
+      <h2 class="text-3xl md:text-4xl font-bold mb-6 text-white">{t['vision.title']}</h2>
+      
+      <!-- Centered Decorative Line -->
+      <div class="h-1 w-24 bg-gold mx-auto md:mx-0 mb-8 rounded-full"></div>
+      
+      <p class="text-xl md:text-2xl leading-relaxed text-gray-100">
+        {t['vision.text']}
+      </p>
     </div>
-
   </div>
-</section>
+</div>
