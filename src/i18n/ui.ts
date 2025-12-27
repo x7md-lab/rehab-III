@@ -47,6 +47,8 @@ export const ui = {
     'services.desc.6': 'إدارة المرافق والمشاريع باحترافية تضمن الاستدامة والتميز في الأداء.',
     'services.desc.7': 'حلول تطويرية عقارية مبتكرة تساهم في النهضة العمرانية وتلبي تطلعات السوق.',
     
+    'partners.title': 'شركاء النجاح',
+
     'footer.contact_us': 'اتصل بنا',
     'footer.address': 'الموقع',
     'footer.email': 'البريد الإلكتروني',
@@ -91,6 +93,8 @@ export const ui = {
     'services.desc.2': 'Professional facility and project management ensuring sustainability and excellence.',
     'services.desc.3': 'Efficient supply chain and transport management to ensure smooth operations.',
     'services.desc.4': 'Accumulated expertise providing consulting solutions to enhance operational efficiency.',
+
+    'partners.title': 'Success Partners',
 
     'footer.contact_us': 'Contact Us',
     'footer.address': 'Address',

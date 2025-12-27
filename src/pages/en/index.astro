@@ -7,6 +7,7 @@ import Gallery from '@/components/Gallery.astro';
 import Vision from '@/components/Vision.astro';
 import Services from '@/components/Services.astro';
 import Values from '@/components/Values.astro';
+import Partners from '@/components/Partners.astro';
 import Footer from '@/components/Footer.astro';
 import { defineWebPage, defineLocalBusiness } from '@unhead/schema-org';
 import { ui } from '@/i18n/ui';
@@ -56,12 +57,12 @@ const schemaNodes = [
                 <!-- Mission Section (Inline Card) -->
                 <div id="mission" class="h-full flex flex-col justify-center bg-black/30 backdrop-blur-xl rounded-3xl p-8 md:p-12 border border-white/10" data-aos="fade-up">
                     <div class="text-center md:text-start" dir="ltr">
-                        <h2 class="text-3xl md:text-4xl font-bold mb-8 text-white">{t['mission.title']}</h2>
+                        <h2 class="text-2xl md:text-3xl font-bold mb-8 text-white">{t['mission.title']}</h2>
                         <div class="h-1 w-24 bg-gold mx-auto md:mx-0 mb-8 rounded-full"></div>
-                        <p class="text-xl md:text-2xl leading-relaxed mb-4 text-gray-100">
+                        <p class="text-lg md:text-xl leading-relaxed mb-4 text-gray-100">
                             {t['mission.text1']}
                         </p>
-                        <p class="text-xl md:text-2xl leading-relaxed text-gray-100">
+                        <p class="text-lg md:text-xl leading-relaxed text-gray-100">
                             {t['mission.text2']}
                         </p>
                     </div>
@@ -73,6 +74,7 @@ const schemaNodes = [
 
         <Values />
         <Services />
+        <Partners />
     </main>
     <Footer />
 </Layout>
