@@ -23,7 +23,7 @@ jobs:
 
       - name: Update Astro Config
         run: |
-          sed -i 's|site: "https://www.rehabco.sa"|site: "https://rehab.x7md.net" astro.config.mjs
+          sed -i 's|site: "https://www.rehabco.sa"|site: "https://rehab.x7md.net" |' astro.config.mjs
 
       - name: Install, build, and upload your site 
         uses: withastro/action@v3
