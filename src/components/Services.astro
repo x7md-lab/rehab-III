@@ -44,54 +44,76 @@ const services = [
         // Alternating styles
         const isEven = index % 2 === 0;
         const accentColor = 'text-gold';
-        const hoverBg = isEven ? 'group-hover:bg-primary' : 'group-hover:bg-secondary';
         
         return (
           <div
             data-aos="fade-up"
             data-aos-delay={index * 100}
+            class="group h-80 perspective-1000"
             role="article"
             aria-labelledby={`service-title-${index}`}
+            x-data="{ flipped: false }"
+            @mouseenter="flipped = true"
+            @mouseleave="flipped = false"
+            @click="flipped = !flipped"
           >
             <div 
-              class="group bg-black/30 backdrop-blur-xl rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:-translate-y-2 flex flex-col h-full border border-white/10 overflow-hidden"
+              class="relative w-full h-full transition-all duration-700 transform-style-3d cursor-pointer shadow-xl rounded-2xl"
+              :class="flipped ? 'rotate-y-180' : ''"
             >
-              {/* Top decorative line */}
-              <div class={`h-1 w-full bg-gradient-to-r ${isEven ? 'from-primary to-primary/60' : 'from-secondary to-secondary/60'} transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500`}></div>
+              
+              {/* Front Face - Icon & Title */}
+              <div class="absolute inset-0 w-full h-full backface-hidden bg-black/30 backdrop-blur-xl rounded-2xl border border-white/10 z-10 transform-style-3d overflow-hidden">
+                {/* Diagonal Stripes Pattern */}
+                <div class="absolute inset-0 opacity-[0.03]" style="background-image: repeating-linear-gradient(45deg, #fff 0, #fff 1px, transparent 0, transparent 50%); background-size: 10px 10px;"></div>
+                
+                <div class="w-full h-full flex flex-col justify-between p-8 parallax-content relative z-20">
+                  {/* Top: Title */}
+                  <div class="w-full flex flex-col items-start">
+                    <div class={`h-1.5 w-12 mb-6 rounded-full bg-gradient-to-r ${isEven ? 'from-primary to-primary/60' : 'from-secondary to-secondary/60'}`}></div>
+                    <h3 
+                      id={`service-title-${index}`} 
+                      class="text-3xl font-bold text-white text-start leading-tight"
+                    >
+                      {t[service.titleKey as keyof typeof t]}
+                    </h3>
+                  </div>
 
-              <div class="p-8 flex flex-col flex-grow items-center text-center">
-                 {/* Icon Container */}
-                 <div class={`w-16 h-16 mb-6 rounded-2xl flex items-center justify-center transition-colors duration-300 ease-in-out bg-black/20 ${accentColor} ${hoverBg} group-hover:text-white shadow-sm`}>
-                    <div class="w-8 h-8">
-                      <Fragment set:html={icons[service.iconIndex]} />
+                  {/* Bottom: Icon */}
+                  <div class="w-full flex justify-start items-end">
+                    <div class={`w-20 h-20 rounded-2xl flex items-center justify-center bg-white/5 border border-white/10 ${accentColor} text-white backdrop-blur-sm shadow-lg group-hover:scale-110 transition-transform duration-500`}>
+                      <div class="w-10 h-10">
+                        <Fragment set:html={icons[service.iconIndex]} />
+                      </div>
                     </div>
-                 </div>
-                 
-                 <h3 
-                   id={`service-title-${index}`} 
-                   class="text-xl font-bold text-white mb-3 group-hover:text-gold transition-colors"
-                 >
-                   {t[service.titleKey as keyof typeof t]}
-                 </h3>
-                 
-                 <p class="text-white text-sm leading-relaxed mb-6 flex-grow">
-                   {t[service.descKey as keyof typeof t]}
-                 </p>
-
-                 {/* Action Button - Subtle by default, prominent on hover */}
-                 <a 
-                   href="#contact" 
-                   class={`inline-flex items-center justify-center px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 ease-in-out
-                     bg-transparent border border-white/20 text-white
-                     ${isEven ? 'hover:bg-primary hover:border-primary' : 'hover:bg-secondary hover:border-secondary'} hover:text-white hover:shadow-md`}
-                   aria-label={`${isRtl ? 'قراءة المزيد عن' : 'Read more about'} ${t[service.titleKey as keyof typeof t]}`}
-                 >
-                   <span>{isRtl ? 'قراءة المزيد...' : 'Read More...'}</span>
-                   <svg xmlns="http://www.w3.org/2000/svg" class={`h-4 w-4 ${isRtl ? 'mr-2 rotate-180' : 'ml-2'} transition-transform group-hover:translate-x-1`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                   </svg>
-                 </a>
+                  </div>
+                </div>
               </div>
+
+              {/* Back Face - Description */}
+              <div class="absolute inset-0 w-full h-full backface-hidden rotate-y-180 bg-gradient-to-br from-black/80 to-black/60 backdrop-blur-xl rounded-2xl border border-white/20 z-20 transform-style-3d">
+                <div class="w-full h-full flex flex-col items-center justify-center p-8 text-center parallax-content">
+                  <div class={`h-full w-1 absolute top-0 right-0 bg-gradient-to-b ${isEven ? 'from-primary to-primary/60' : 'from-secondary to-secondary/60'}`}></div>
+                  
+                  <h3 class="text-xl font-bold text-gold mb-4 opacity-90">
+                    {t[service.titleKey as keyof typeof t]}
+                  </h3>
+
+                  <p class="text-white text-base leading-relaxed mb-6">
+                    {t[service.descKey as keyof typeof t]}
+                  </p>
+
+                  <a 
+                     href="#contact" 
+                     class={`inline-flex items-center justify-center px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 ease-in-out
+                       bg-white/10 border border-white/20 text-white
+                       ${isEven ? 'hover:bg-primary hover:border-primary' : 'hover:bg-secondary hover:border-secondary'} hover:text-white hover:shadow-lg`}
+                   >
+                     <span>{isRtl ? 'تواصل معنا' : 'Contact Us'}</span>
+                   </a>
+                </div>
+              </div>
+
             </div>
           </div>
         );
@@ -99,3 +121,21 @@ const services = [
     </div>
   </div>
 </section>
+
+<style>
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  .transform-style-3d {
+    transform-style: preserve-3d;
+  }
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+  .rotate-y-180 {
+    transform: rotateY(180deg);
+  }
+  .parallax-content {
+    transform: translateZ(60px);
+  }
+</style>
