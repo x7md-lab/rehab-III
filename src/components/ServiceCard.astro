@@ -1,0 +1,101 @@
+---
+const { service, index, icon, t, isRtl } = Astro.props;
+
+const isEven = index % 2 === 0;
+const accentColor = 'text-gold';
+---
+
+<div
+  data-aos="fade-up"
+  data-aos-delay={index * 100}
+  class="group w-full h-80 perspective-1000"
+  role="article"
+  aria-labelledby={`service-title-${index}`}
+  x-data="{ flipped: false }"
+  @mouseenter="flipped = true"
+  @mouseleave="flipped = false"
+  @click="flipped = !flipped"
+>
+  <div 
+    class="relative w-full h-full transition-all duration-700 transform-style-3d cursor-pointer shadow-xl rounded-2xl"
+    :class="flipped ? 'rotate-y-180' : ''"
+  >
+    
+    {/* Front Face - Icon & Title */}
+    <div class="absolute inset-0 w-full h-full backface-hidden backdrop-blur-xl rounded-2xl border border-white/10 z-10 transform-style-3d overflow-hidden bg-gradient-to-br from-gold/20 via-black/40 to-black/60">
+      
+      {/* Decorative Watermark Icon (Faded background) */}
+      <div class="absolute -bottom-12 -right-12 w-48 h-48 text-white/5 transform -rotate-12 group-hover:rotate-0 group-hover:scale-110 transition-all duration-700 ease-in-out pointer-events-none z-0">
+         <Fragment set:html={icon} />
+      </div>
+
+      {/* Diagonal Stripes Pattern */}
+      <div class="absolute inset-0 opacity-[0.03] z-0" style="background-image: repeating-linear-gradient(45deg, #fff 0, #fff 1px, transparent 0, transparent 50%); background-size: 10px 10px;"></div>
+      
+      <div class="w-full h-full flex flex-col justify-between p-8 parallax-content relative z-20">
+        {/* Top: Title */}
+        <div class="w-full flex flex-col items-start">
+          <div class="h-1 w-16 mb-6 rounded-full bg-gradient-to-r from-gold to-transparent"></div>
+          <h3 
+            id={`service-title-${index}`} 
+            class="text-3xl md:text-4xl font-bold text-white text-start leading-tight tracking-wide drop-shadow-md"
+          >
+            {t[service.titleKey]}
+          </h3>
+        </div>
+
+        {/* Bottom: Icon */}
+        <div class="w-full flex justify-start items-end">
+          <div class={`w-20 h-20 rounded-full flex items-center justify-center bg-white/10 border border-white/20 ${accentColor} text-white backdrop-blur-md shadow-[0_8px_32px_0_rgba(0,0,0,0.36)] group-hover:scale-110 group-hover:bg-white/20 transition-all duration-500`}>
+            <div class="w-10 h-10 drop-shadow-lg">
+              <Fragment set:html={icon} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {/* Back Face - Description */}
+    <div class="absolute inset-0 w-full h-full backface-hidden rotate-y-180 bg-gradient-to-br from-black/80 to-black/60 backdrop-blur-xl rounded-2xl border border-white/20 z-20 transform-style-3d">
+      <div class="w-full h-full flex flex-col items-center justify-center p-8 text-center parallax-content">
+        <div class="h-full w-1 absolute top-0 right-0 bg-gradient-to-b from-gold to-gold/60"></div>
+        
+        <h3 class="text-xl font-bold text-gold mb-4 opacity-90">
+          {t[service.titleKey]}
+        </h3>
+
+        <p class="text-white text-base leading-relaxed mb-6">
+          {t[service.descKey]}
+        </p>
+
+        <a 
+           href="#contact" 
+           class="inline-flex items-center justify-center px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 ease-in-out
+             bg-white/10 border border-white/20 text-white
+             hover:bg-gold hover:border-gold hover:text-white hover:shadow-lg"
+         >
+           <span>{isRtl ? 'تواصل معنا' : 'Contact Us'}</span>
+         </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<style>
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  .transform-style-3d {
+    transform-style: preserve-3d;
+  }
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+  .rotate-y-180 {
+    transform: rotateY(180deg);
+  }
+  .parallax-content {
+    transform: translateZ(60px);
+  }
+</style>
