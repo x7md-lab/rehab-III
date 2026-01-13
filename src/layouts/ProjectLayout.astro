@@ -25,6 +25,8 @@ const title = t[project.titleKey as keyof typeof t];
 const description = t[project.descKey as keyof typeof t];
 const content = t[project.contentKey as keyof typeof t];
 
+const videoId = project.videoUrl ? (project.videoUrl.match(/v=([^&]+)/) || [])[1] : null;
+
 // Schema
 const schemaNodes = [
   defineWebPage({
@@ -58,6 +60,9 @@ const schemaNodes = [
 ---
 
 <Layout title={`${title} | ${t['hero.title_company']}`} schemaNodes={schemaNodes}>
+  <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" slot="head" />
+  <script is:inline src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js" slot="head"></script>
+
   <Header />
   
   <main class="pb-20">
@@ -73,6 +78,25 @@ const schemaNodes = [
         <div class="lg:col-span-2 space-y-8" data-aos="fade-up">
           <div class="bg-white/5 backdrop-blur-sm rounded-3xl p-8 border border-white/10 shadow-lg">
             <h2 class="text-3xl font-bold mb-6 text-gold">{title}</h2>
+            
+            {videoId && (
+              <div class="mb-8 rounded-xl overflow-hidden shadow-2xl">
+                <div class="plyr__video-embed" id="player">
+                  <iframe
+                    src={`https://www.youtube.com/embed/${videoId}?origin=https://plyr.io&iv_load_policy=3&modestbranding=1&playsinline=1&showinfo=0&rel=0&enablejsapi=1`}
+                    allowfullscreen
+                    allowtransparency
+                    allow="autoplay"
+                  ></iframe>
+                </div>
+              </div>
+              <script is:inline>
+                document.addEventListener('DOMContentLoaded', () => {
+                  const player = new Plyr('#player');
+                });
+              </script>
+            )}
+
             <div class="prose prose-lg prose-invert max-w-none">
               <p class="text-gray-200 leading-relaxed whitespace-pre-line">
                 {content}

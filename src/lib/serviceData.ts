@@ -6,7 +6,7 @@ import teamImg5 from '../assets/team/DSC01116.jpg';
 
 // Reusing other optimized images from assets/hero as replacements for deleted team images
 import teamImg1 from '../assets/hero/DSC00130.jpg';
-import teamImg2 from '../assets/hero/RRW09172.JPG';
+import teamImg2 from '../assets/hero/RRW09172.jpg';
 import teamImg3 from '../assets/hero/DSC08341.jpg';
 import teamImg4 from '../assets/hero/DSC00360.jpg';
 

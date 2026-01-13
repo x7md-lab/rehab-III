@@ -9,6 +9,7 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/check": "^0.9.6",
     "@astrojs/sitemap": "^3.6.0",
     "@tailwindcss/vite": "^4.1.17",
     "@unhead/schema-org": "^2.0.19",
@@ -17,6 +18,7 @@
     "embla-carousel": "^8.6.0",
     "embla-carousel-autoplay": "^8.6.0",
     "tailwindcss": "^4.1.17",
+    "typescript": "^5.9.3",
     "unhead": "^2.0.19"
   }
 }

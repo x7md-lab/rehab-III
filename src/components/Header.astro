@@ -51,7 +51,7 @@ const langLabel = currentLocale === 'ar' ? 'English' : 'العربية';
             <div class="dropdown-content bg-black/90 backdrop-blur-xl border border-white/10 rounded-xl shadow-xl overflow-hidden flex flex-col py-2 transition-all duration-300 ease-out transform origin-top opacity-0 -translate-y-2 scale-95">
                 {services.map(s => (
                     <a href={getRelativeLocaleUrl(currentLocale, `services/${s.slug}`)} class="px-4 py-3 text-sm hover:bg-white/10 hover:text-gold transition-colors text-start">
-                    {t[s.titleKey]}
+                    {t[s.titleKey as keyof typeof t]}
                     </a>
                 ))}
             </div>
@@ -95,7 +95,7 @@ const langLabel = currentLocale === 'ar' ? 'English' : 'العربية';
         <div class="mt-4 flex flex-col gap-2 w-full bg-white/5 rounded-2xl p-4 border border-white/10 overflow-hidden transition-all duration-300 animate-fade-in-down">
             {services.map(s => (
                 <a href={getRelativeLocaleUrl(currentLocale, `services/${s.slug}`)} class="mobile-link text-lg text-gray-200 hover:text-gold transition-colors py-3 px-4 rounded-lg hover:bg-white/5 block">
-                    {t[s.titleKey]}
+                    {t[s.titleKey as keyof typeof t]}
                 </a>
             ))}
         </div>
@@ -153,7 +153,7 @@ const langLabel = currentLocale === 'ar' ? 'English' : 'العربية';
   if (mobileMenuBtn && mobileMenu) {
     const toggleMenu = () => {
         const isExpanded = mobileMenuBtn.getAttribute('aria-expanded') === 'true';
-        mobileMenuBtn.setAttribute('aria-expanded', !isExpanded);
+        mobileMenuBtn.setAttribute('aria-expanded', String(!isExpanded));
         mobileMenuBtn.classList.toggle('menu-open');
         
         if (!isExpanded) {
@@ -189,11 +189,11 @@ const langLabel = currentLocale === 'ar' ? 'English' : 'العربية';
   // Desktop Dropdown Hover Logic
   const details = document.querySelectorAll('details.desktop-hover');
   details.forEach(d => {
-    const content = d.querySelector('.dropdown-content');
-    let timeoutId;
+    const content = d.querySelector('.dropdown-content') as HTMLElement | null;
+    let timeoutId: any;
 
     d.addEventListener('mouseenter', () => {
-      if (window.innerWidth >= 768) {
+      if (window.innerWidth >= 768 && content) {
         clearTimeout(timeoutId);
         d.setAttribute('open', 'true');
         // Force reflow
@@ -207,7 +207,7 @@ const langLabel = currentLocale === 'ar' ? 'English' : 'العربية';
     });
 
     d.addEventListener('mouseleave', () => {
-      if (window.innerWidth >= 768) {
+      if (window.innerWidth >= 768 && content) {
         // Start exit animation
         content.classList.remove('opacity-100', 'translate-y-0', 'scale-100');
         content.classList.add('opacity-0', '-translate-y-2', 'scale-95');
