@@ -62,57 +62,72 @@ const langLabel = currentLocale === 'ar' ? 'English' : 'العربية';
 
     <div class="flex gap-4 items-center">
        <!-- Language Switcher -->
-       <a href={langLink} class="text-sm font-bold hover:text-gold transition-colors" id="lang-switch" data-lang={currentLocale === 'ar' ? 'en' : 'ar'}>
+       <a href={langLink} class="text-sm font-bold hover:text-gold transition-colors relative z-[120]" id="lang-switch" data-lang={currentLocale === 'ar' ? 'en' : 'ar'}>
          {langLabel}
        </a>
 
        <!-- Mobile Menu Button -->
-       <button id="mobile-menu-btn" class="md:hidden text-white focus:outline-none" aria-label="Toggle Menu">
-         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-         </svg>
+       <button id="mobile-menu-btn" class="md:hidden relative z-[120] w-12 h-12 flex flex-col justify-center items-center gap-1.5 focus:outline-none" aria-label="Toggle Menu" aria-expanded="false">
+         <span class="hamburger-line block w-7 h-0.5 bg-white transition-all duration-300 ease-in-out origin-center"></span>
+         <span class="hamburger-line block w-7 h-0.5 bg-white transition-all duration-300 ease-in-out"></span>
+         <span class="hamburger-line block w-7 h-0.5 bg-white transition-all duration-300 ease-in-out origin-center"></span>
        </button>
     </div>
   </div>
 </header>
 
-<div id="mobile-menu" class="fixed inset-0 z-[100] bg-[#0a1950]/95 backdrop-blur-2xl transition-all duration-500 ease-in-out transform translate-x-full md:hidden flex flex-col items-center justify-center overflow-y-auto">
+<div id="mobile-menu" class="fixed inset-0 z-[100] bg-gradient-to-b from-[#0a1950] to-black backdrop-blur-2xl opacity-0 invisible transition-all duration-500 ease-in-out md:hidden flex flex-col items-center justify-center overflow-y-auto">
   
-  <button id="close-menu-btn" class="absolute top-6 left-6 p-2 text-white/60 hover:text-white transition-colors" aria-label="Close Menu">
-     <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-     </svg>
-  </button>
-
-  <nav class="flex flex-col space-y-6 text-center w-full px-8 py-12">
-    <a href={homeLink} class="text-2xl md:text-3xl font-bold text-white hover:text-gold transition-colors">{t['nav.home']}</a>
+  <nav id="mobile-nav-content" class="flex flex-col space-y-6 text-center w-full px-8 py-12 transform translate-y-8 transition-all duration-500 ease-out delay-100">
+    <a href={homeLink} class="mobile-link text-3xl font-bold text-white hover:text-gold transition-colors inline-block py-2">{t['nav.home']}</a>
     
     <!-- Mobile Services Dropdown -->
     <details class="group w-full">
-        <summary class="list-none cursor-pointer text-2xl md:text-3xl font-bold text-white hover:text-gold transition-colors flex items-center justify-center gap-2">
+        <summary class="list-none cursor-pointer text-3xl font-bold text-white hover:text-gold transition-colors flex items-center justify-center gap-3 py-2">
             {t['nav.services']}
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transition-transform duration-300 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transition-transform duration-300 group-open:rotate-180 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
             </svg>
         </summary>
-        <div class="mt-4 flex flex-col gap-3 w-full bg-white/5 rounded-xl p-4 border border-white/10">
+        <div class="mt-4 flex flex-col gap-2 w-full bg-white/5 rounded-2xl p-4 border border-white/10 overflow-hidden transition-all duration-300 animate-fade-in-down">
             {services.map(s => (
-                <a href={getRelativeLocaleUrl(currentLocale, `services/${s.slug}`)} class="text-lg text-white/90 hover:text-gold transition-colors py-2">
+                <a href={getRelativeLocaleUrl(currentLocale, `services/${s.slug}`)} class="mobile-link text-lg text-gray-200 hover:text-gold transition-colors py-3 px-4 rounded-lg hover:bg-white/5 block">
                     {t[s.titleKey]}
                 </a>
             ))}
         </div>
     </details>
 
-    <a href={`${homeLink}#vision`} class="text-2xl md:text-3xl font-bold text-white hover:text-gold transition-colors">{t['nav.vision']}</a>
-    <a href={chairmanLink} class="text-2xl md:text-3xl font-bold text-white hover:text-gold transition-colors">{t['nav.chairman']}</a>
-    <a href={`${homeLink}#contact`} class="text-2xl md:text-3xl font-bold text-white hover:text-gold transition-colors">{t['nav.contact']}</a>
+    <a href={`${homeLink}#vision`} class="mobile-link text-3xl font-bold text-white hover:text-gold transition-colors inline-block py-2">{t['nav.vision']}</a>
+    <a href={chairmanLink} class="mobile-link text-3xl font-bold text-white hover:text-gold transition-colors inline-block py-2">{t['nav.chairman']}</a>
+    <a href={`${homeLink}#contact`} class="mobile-link text-3xl font-bold text-white hover:text-gold transition-colors inline-block py-2">{t['nav.contact']}</a>
   </nav>
   
-  <div class="mt-auto mb-12 opacity-30">
-      <img src="/logowhte.svg" alt="Rehab Logo" class="h-16 grayscale" />
+  <div id="mobile-menu-footer" class="mt-auto mb-12 opacity-0 transition-opacity duration-700 delay-300">
+      <img src="/logowhte.svg" alt="Rehab Logo" class="h-20 grayscale opacity-50" />
   </div>
 </div>
+
+<style>
+  /* Hamburger Animation Classes */
+  .menu-open .hamburger-line:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+  .menu-open .hamburger-line:nth-child(2) {
+    opacity: 0;
+  }
+  .menu-open .hamburger-line:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+  
+  /* Staggered Animation for Links */
+  .menu-open #mobile-nav-content {
+    transform: translateY(0);
+  }
+  .menu-open #mobile-menu-footer {
+    opacity: 1;
+  }
+</style>
 
 <script>
   // Language Switcher Logic
@@ -126,33 +141,44 @@ const langLabel = currentLocale === 'ar' ? 'English' : 'العربية';
 
   // Mobile Menu Logic
   const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-  const closeMenuBtn = document.getElementById('close-menu-btn');
   const mobileMenu = document.getElementById('mobile-menu');
+  const header = document.querySelector('header');
 
   if (mobileMenuBtn && mobileMenu) {
-    mobileMenuBtn.addEventListener('click', () => {
-      mobileMenu.classList.remove('translate-x-full');
-      document.body.style.overflow = 'hidden'; // Prevent scrolling
-    });
-
-    const closeMenu = () => {
-      mobileMenu.classList.add('translate-x-full');
-      document.body.style.overflow = ''; // Restore scrolling
+    const toggleMenu = () => {
+        const isExpanded = mobileMenuBtn.getAttribute('aria-expanded') === 'true';
+        mobileMenuBtn.setAttribute('aria-expanded', !isExpanded);
+        mobileMenuBtn.classList.toggle('menu-open');
+        
+        if (!isExpanded) {
+            // Open Menu
+            mobileMenu.classList.remove('opacity-0', 'invisible');
+            mobileMenu.classList.add('menu-open'); // Triggers CSS transitions
+            document.body.style.overflow = 'hidden';
+        } else {
+            // Close Menu
+            mobileMenu.classList.add('opacity-0', 'invisible');
+            mobileMenu.classList.remove('menu-open');
+            document.body.style.overflow = '';
+            
+            // Close details if open
+            const details = mobileMenu.querySelector('details');
+            if (details) details.removeAttribute('open');
+        }
     };
 
-    if (closeMenuBtn) {
-        closeMenuBtn.addEventListener('click', closeMenu);
-    }
+    mobileMenuBtn.addEventListener('click', toggleMenu);
 
     // Close menu when clicking a link
-    // Only close if it's not a details summary click
     mobileMenu.addEventListener('click', (e) => {
         const target = e.target as HTMLElement;
         if (target.tagName === 'A' || target.closest('a')) {
-            closeMenu();
+             // If it's a link inside the menu, close the menu
+             toggleMenu();
         }
     });
   }
+
 
   // Desktop Dropdown Hover Logic
   const details = document.querySelectorAll('details.desktop-hover');
