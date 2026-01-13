@@ -15,7 +15,8 @@ const heroImages = [heroImg1, heroImg2, heroImg3, heroImg4];
   <div class="absolute inset-0 z-0 bg-black">
     {heroImages.map((img, index) => (
       <div 
-        class={`absolute inset-0 transition-opacity duration-1000 ease-in-out hero-bg-image ${index === 0 ? 'opacity-100' : 'opacity-0'}`}
+        class={`absolute inset-0 transition-opacity duration-1000 ease-in-out hero-bg-image ${index === 0 ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
+        style={index !== 0 ? "display: none;" : ""}
         data-index={index}
       >
         <Image 
@@ -37,7 +38,15 @@ const heroImages = [heroImg1, heroImg2, heroImg3, heroImg4];
     <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
       <!-- Logo Column -->
       <div class="flex justify-center md:justify-center" data-aos="fade-down" data-aos-duration="1000">
-        <img src="/logowhte.svg" alt="Rehab Logo" class="h-30 md:h-32 lg:h-48 object-contain drop-shadow-2xl" />
+        <img 
+          src="/logowhte.svg" 
+          alt="Rehab Logo" 
+          class="h-30 md:h-32 lg:h-48 object-contain drop-shadow-2xl w-auto" 
+          width="743" 
+          height="503"
+          loading="eager"
+          fetchpriority="high"
+        />
       </div>
       
       <!-- Content Column -->
@@ -72,16 +81,34 @@ const heroImages = [heroImg1, heroImg2, heroImg3, heroImg4];
   
   if (slides.length > 0) {
     setInterval(() => {
-      // Fade out current
-      slides[currentSlide].classList.remove('opacity-100');
-      slides[currentSlide].classList.add('opacity-0');
+      const nextSlide = (currentSlide + 1) % slides.length;
       
-      // Move to next
-      currentSlide = (currentSlide + 1) % slides.length;
+      // 1. Prepare next slide: unhide it, but keep it transparent
+      const nextEl = slides[nextSlide] as HTMLElement;
+      nextEl.style.display = 'block';
+      
+      // Force reflow to ensure browser registers the display change before transition
+      void nextEl.offsetWidth;
+
+      // 2. Start transition
+      // Fade out current
+      slides[currentSlide].classList.remove('opacity-100', 'z-10');
+      slides[currentSlide].classList.add('opacity-0', 'z-0');
       
       // Fade in next
-      slides[currentSlide].classList.remove('opacity-0');
-      slides[currentSlide].classList.add('opacity-100');
+      nextEl.classList.remove('opacity-0', 'z-0');
+      nextEl.classList.add('opacity-100', 'z-10');
+      
+      // 3. Cleanup after transition (1s duration)
+      setTimeout(() => {
+        const prevEl = slides[currentSlide] as HTMLElement;
+        // Only hide if it's not the active slide (in case of rapid changes, though interval is 5s)
+        if (!prevEl.classList.contains('opacity-100')) {
+             prevEl.style.display = 'none';
+        }
+        currentSlide = nextSlide;
+      }, 1000);
+
     }, 5000); // Change every 5 seconds
   }
 </script>

@@ -1,18 +1,19 @@
 ---
 import { defaultLang } from '../i18n/ui';
+import { Image } from 'astro:assets';
+
+import img1 from '../assets/gallery_full/FJR09968.jpg';
+import img2 from '../assets/gallery_full/RRW09158.JPG';
+import img3 from '../assets/gallery_full/HSN09855.jpg';
+import img4 from '../assets/gallery_full/RRW09192.JPG';
+import img5 from '../assets/gallery_full/DSC09962.jpg';
+import img6 from '../assets/gallery_full/DSC09386.JPG';
+import img7 from '../assets/gallery_full/DSC00147.jpg';
 
 const currentLocale = Astro.currentLocale || defaultLang;
 const isRtl = currentLocale === 'ar';
 
-const images = [
-  '/images/hotels-catering/FJR09968.jpg',
-  '/images/contracting/RRW09158.JPG',
-  '/images/hotels-catering/HSN09855.jpg',
-  '/images/contracting/RRW09192.JPG',
-  '/images/mashair-catering/DSC09962.jpg',
-  '/images/hotels-catering/DSC09386.JPG',
-  '/images/hotels-catering/DSC00147.jpg'
-];
+const images = [img1, img2, img3, img4, img5, img6, img7];
 ---
 
 <div id="gallery" class="h-full rounded-3xl overflow-hidden relative group bg-black/30 backdrop-blur-xl border border-white/10 p-4" data-aos="fade-up">
@@ -42,10 +43,14 @@ const images = [
           {images.map((image, index) => (
             <div class="embla__slide flex-[0_0_100%] min-w-0 ps-4 h-full">
               <div class="relative group overflow-hidden rounded-xl shadow-lg h-full">
-                <img 
+                <Image 
                   src={image} 
                   alt={`Rehab Gallery Image ${index + 1}`} 
                   class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  widths={[640, 1024, 1280]}
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  loading={index < 2 ? "eager" : "lazy"}
+                  decoding="async"
                 />
                 <div class="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors duration-300"></div>
               </div>

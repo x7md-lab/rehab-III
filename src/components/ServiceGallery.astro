@@ -71,21 +71,24 @@ const { images, title } = Astro.props;
       
       <!-- Alpine-based simple slider -->
         {images.map((img, index) => (
-          <div x-show={`activeIndex === ${index}`} class="w-full h-full flex items-center justify-center" x-transition.opacity>
-             {typeof img === 'string' ? (
-               <img 
-                  src={img} 
-                  alt={`Gallery full image ${index + 1}`}
-                  class="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
-               />
-             ) : (
-               <Image 
-                  src={img} 
-                  alt={`Gallery full image ${index + 1}`}
-                  class="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
-               />
-             )}
-          </div>
+          <template x-if={`activeIndex === ${index}`}>
+            <div class="w-full h-full flex items-center justify-center" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
+               {typeof img === 'string' ? (
+                 <img 
+                    src={img} 
+                    alt={`Gallery full image ${index + 1}`}
+                    class="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
+                 />
+               ) : (
+                 <Image 
+                    src={img} 
+                    alt={`Gallery full image ${index + 1}`}
+                    class="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
+                    loading="eager"
+                 />
+               )}
+            </div>
+          </template>
         ))}
         
       <!-- Prev/Next Buttons -->
