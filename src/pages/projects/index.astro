@@ -1,0 +1,77 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import ServiceHero from '@/components/ServiceHero.astro';
+import { ui } from '@/i18n/ui';
+import { projectsData } from '@/lib/projectData';
+import { Image } from 'astro:assets';
+
+const currentLocale = (Astro.currentLocale || 'ar') as keyof typeof ui;
+const t = ui[currentLocale];
+const isRtl = currentLocale === 'ar';
+
+const title = t['projects.title'];
+const subtitle = t['projects.subtitle'];
+---
+
+<Layout title={`${title} | ${t['hero.title_company']}`}>
+  <Header />
+  
+  <main class="pb-20">
+    <ServiceHero 
+      title={title} 
+      subtitle={subtitle} 
+      image="/images/contracting/RRW09172.JPG" 
+    />
+
+    <div class="container mx-auto px-4 mt-16">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {projectsData.map((project, index) => (
+          <a 
+            href={isRtl ? `/projects/${project.slug}` : `/en/projects/${project.slug}`}
+            class="group relative h-96 overflow-hidden rounded-3xl shadow-xl transition-all duration-500 hover:-translate-y-2"
+            data-aos="fade-up"
+            data-aos-delay={index * 100}
+          >
+            {/* Background Image */}
+            <div class="absolute inset-0 z-0 transition-transform duration-700 group-hover:scale-110">
+              {typeof project.heroImage === 'string' ? (
+                <img 
+                  src={project.heroImage} 
+                  alt={t[project.titleKey as keyof typeof t]} 
+                  class="h-full w-full object-cover"
+                />
+              ) : (
+                <Image 
+                  src={project.heroImage} 
+                  alt={t[project.titleKey as keyof typeof t]} 
+                  class="h-full w-full object-cover"
+                />
+              )}
+              <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+            </div>
+
+            {/* Content Overlay */}
+            <div class="absolute inset-0 z-10 flex flex-col justify-end p-8 text-white">
+              <h3 class="text-2xl font-bold mb-3 text-gold transition-colors group-hover:text-white">
+                {t[project.titleKey as keyof typeof t]}
+              </h3>
+              <p class="text-gray-200 line-clamp-2 mb-4 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+                {t[project.descKey as keyof typeof t]}
+              </p>
+              <div class="flex items-center gap-2 text-gold font-semibold">
+                <span>{t['hero.cta']}</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class={`h-5 w-5 transition-transform duration-300 group-hover:translate-x-${isRtl ? '-1' : '1'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={isRtl ? "M15 19l-7-7 7-7" : "M9 5l7 7-7 7"} />
+                </svg>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </main>
+  
+  <Footer />
+</Layout>

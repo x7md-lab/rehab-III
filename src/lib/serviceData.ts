@@ -1,12 +1,31 @@
 
+import type { ImageMetadata } from 'astro';
+
+// Team Images
+import teamImg5 from '../assets/team/DSC01116.jpg';
+
+// Reusing other optimized images from assets/hero as replacements for deleted team images
+import teamImg1 from '../assets/hero/DSC00130.jpg';
+import teamImg2 from '../assets/hero/RRW09172.JPG';
+import teamImg3 from '../assets/hero/DSC08341.jpg';
+import teamImg4 from '../assets/hero/DSC00360.jpg';
+
+// Other Team/Consulting Images (referenced in data)
+// We need to check which specific files are used where to import them correctly.
+// Based on the file content:
+// management hero: DSC00130 (teamImg1)
+// management gallery: RRW09172 (teamImg2), DSC08341 (teamImg3), DSC00360 (teamImg4), DSC01116 (teamImg5)
+// consulting hero: DSC01116 (teamImg5)
+// consulting gallery: DSC00130 (teamImg1), RRW09172 (teamImg2), FJR09921 (public), DSC00360 (teamImg4)
+
 export interface ServiceData {
   id: string;
   slug: string;
   titleKey: string;
   descKey: string;
   contentKey: string;
-  heroImage: string;
-  galleryImages: string[];
+  heroImage: string | ImageMetadata;
+  galleryImages: (string | ImageMetadata)[];
 }
 
 export const servicesData: ServiceData[] = [
@@ -44,12 +63,12 @@ export const servicesData: ServiceData[] = [
     titleKey: 'services.management.title',
     descKey: 'services.management.desc',
     contentKey: 'services.management.content',
-    heroImage: '/images/team/DSC00736.jpg',
+    heroImage: teamImg1,
     galleryImages: [
-      '/images/team/DSC09476.jpg',
-      '/images/team/DSC01135.jpg',
-      '/images/team/DSC00811.jpg',
-      '/images/team/DSC01116.jpg'
+      teamImg2,
+      teamImg3,
+      teamImg4,
+      teamImg5
     ],
   },
   {
@@ -72,12 +91,12 @@ export const servicesData: ServiceData[] = [
     titleKey: 'services.consulting.title',
     descKey: 'services.consulting.desc',
     contentKey: 'services.consulting.content',
-    heroImage: '/images/team/DSC01116.jpg',
+    heroImage: teamImg5,
     galleryImages: [
-      '/images/team/DSC00736.jpg',
-      '/images/team/DSC09476.jpg',
+      teamImg1,
+      teamImg2,
       '/images/hotels-catering/FJR09921.jpg',
-      '/images/team/DSC00811.jpg'
+      teamImg4
     ],
   },
 ];

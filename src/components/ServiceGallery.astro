@@ -1,7 +1,10 @@
 
 ---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
 interface Props {
-  images: string[];
+  images: (string | ImageMetadata)[];
   title: string;
 }
 
@@ -19,11 +22,21 @@ const { images, title } = Astro.props;
         class="relative group overflow-hidden rounded-xl aspect-square w-full cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary"
         aria-label={`View image ${index + 1}`}
       >
-        <img 
-          src={img} 
-          alt={`Gallery image ${index + 1}`}
-          class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-        />
+        {typeof img === 'string' ? (
+          <img 
+            src={img} 
+            alt={`Gallery image ${index + 1}`}
+            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+          />
+        ) : (
+          <Image 
+            src={img} 
+            alt={`Gallery image ${index + 1}`}
+            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+            widths={[240, 540, 720]}
+            sizes="(max-width: 768px) 50vw, 25vw"
+          />
+        )}
         <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300">
           <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white drop-shadow-lg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -59,11 +72,19 @@ const { images, title } = Astro.props;
       <!-- Alpine-based simple slider -->
         {images.map((img, index) => (
           <div x-show={`activeIndex === ${index}`} class="w-full h-full flex items-center justify-center" x-transition.opacity>
-             <img 
-                src={img} 
-                alt={`Gallery full image ${index + 1}`}
-                class="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
-             />
+             {typeof img === 'string' ? (
+               <img 
+                  src={img} 
+                  alt={`Gallery full image ${index + 1}`}
+                  class="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
+               />
+             ) : (
+               <Image 
+                  src={img} 
+                  alt={`Gallery full image ${index + 1}`}
+                  class="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
+               />
+             )}
           </div>
         ))}
         
@@ -95,13 +116,23 @@ const { images, title } = Astro.props;
             class="w-16 h-16 rounded-md overflow-hidden border-2 transition-all"
             :class={`activeIndex === ${index} ? 'border-primary scale-110' : 'border-transparent opacity-60 hover:opacity-100'`}
           >
-            <img 
-              src={img} 
-              alt={`Thumbnail ${index + 1}`}
-              class="w-full h-full object-cover"
-            />
+            {typeof img === 'string' ? (
+              <img 
+                src={img} 
+                alt={`Thumbnail ${index + 1}`}
+                class="w-full h-full object-cover"
+              />
+            ) : (
+              <Image 
+                src={img} 
+                alt={`Thumbnail ${index + 1}`}
+                class="w-full h-full object-cover"
+                width={64}
+                height={64}
+              />
+            )}
           </button>
-       ))}
+        ))}
     </div>
   </div>
 </div>

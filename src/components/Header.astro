@@ -7,6 +7,7 @@ const t = ui[currentLocale as keyof typeof ui];
 
 const homeLink = getRelativeLocaleUrl(currentLocale, '');
 const chairmanLink = getRelativeLocaleUrl(currentLocale, 'chairman-message');
+const projectsLink = getRelativeLocaleUrl(currentLocale, 'projects');
 
 const services = [
   { titleKey: 'services.catering.title', slug: 'catering' },
@@ -28,7 +29,7 @@ const langLink = getRelativeLocaleUrl(targetLang, currentPath);
 const langLabel = currentLocale === 'ar' ? 'English' : 'العربية';
 ---
 
-<header class="sticky top-0 z-50 bg-black/50 backdrop-blur-xl text-white py-4 shadow-md">
+<header class="sticky top-0 z-[200] bg-black/50 backdrop-blur-xl text-white py-4 shadow-md">
   <div class="container mx-auto px-4 flex justify-between items-center">
     <a href={homeLink} class="flex items-center">
       <img src="/logowhte.svg" alt="Rehab Logo" class="h-12" />
@@ -37,6 +38,7 @@ const langLabel = currentLocale === 'ar' ? 'English' : 'العربية';
     <!-- Desktop Navigation -->
     <nav class="hidden md:flex gap-6 items-center">
       <a href={homeLink} class="text-sm hover:text-secondary transition-colors">{t['nav.home']}</a>
+      <a href={projectsLink} class="text-sm hover:text-secondary transition-colors">{t['nav.projects']}</a>
             <!-- Services Dropdown -->
       <details class="group relative desktop-hover">
         <summary class="list-none cursor-pointer text-sm hover:text-secondary transition-colors flex items-center gap-1 py-4">
@@ -67,10 +69,10 @@ const langLabel = currentLocale === 'ar' ? 'English' : 'العربية';
        </a>
 
        <!-- Mobile Menu Button -->
-       <button id="mobile-menu-btn" class="md:hidden relative z-[120] w-12 h-12 flex flex-col justify-center items-center gap-1.5 focus:outline-none" aria-label="Toggle Menu" aria-expanded="false">
-         <span class="hamburger-line block w-7 h-0.5 bg-white transition-all duration-300 ease-in-out origin-center"></span>
-         <span class="hamburger-line block w-7 h-0.5 bg-white transition-all duration-300 ease-in-out"></span>
-         <span class="hamburger-line block w-7 h-0.5 bg-white transition-all duration-300 ease-in-out origin-center"></span>
+       <button id="mobile-menu-btn" class="md:hidden relative z-[150] w-12 h-12 flex flex-col justify-center items-center focus:outline-none" aria-label="Toggle Menu" aria-expanded="false">
+         <span class="hamburger-line block w-8 h-0.5 bg-white transition-all duration-300 ease-in-out"></span>
+         <span class="hamburger-line block w-8 h-0.5 bg-white transition-all duration-300 ease-in-out my-1.5"></span>
+         <span class="hamburger-line block w-8 h-0.5 bg-white transition-all duration-300 ease-in-out"></span>
        </button>
     </div>
   </div>
@@ -80,6 +82,7 @@ const langLabel = currentLocale === 'ar' ? 'English' : 'العربية';
   
   <nav id="mobile-nav-content" class="flex flex-col space-y-6 text-center w-full px-8 py-12 transform translate-y-8 transition-all duration-500 ease-out delay-100">
     <a href={homeLink} class="mobile-link text-3xl font-bold text-white hover:text-gold transition-colors inline-block py-2">{t['nav.home']}</a>
+    <a href={projectsLink} class="mobile-link text-3xl font-bold text-white hover:text-gold transition-colors inline-block py-2">{t['nav.projects']}</a>
     
     <!-- Mobile Services Dropdown -->
     <details class="group w-full">
@@ -110,14 +113,17 @@ const langLabel = currentLocale === 'ar' ? 'English' : 'العربية';
 
 <style>
   /* Hamburger Animation Classes */
-  .menu-open .hamburger-line:nth-child(1) {
+  #mobile-menu-btn.menu-open .hamburger-line:nth-child(1) {
     transform: translateY(8px) rotate(45deg);
+    transform-origin: center;
   }
-  .menu-open .hamburger-line:nth-child(2) {
+  #mobile-menu-btn.menu-open .hamburger-line:nth-child(2) {
     opacity: 0;
+    transform: translateX(10px);
   }
-  .menu-open .hamburger-line:nth-child(3) {
+  #mobile-menu-btn.menu-open .hamburger-line:nth-child(3) {
     transform: translateY(-8px) rotate(-45deg);
+    transform-origin: center;
   }
   
   /* Staggered Animation for Links */
