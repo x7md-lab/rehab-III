@@ -1,15 +1,15 @@
 ---
 import { ui, defaultLang } from '../i18n/ui';
+import { Image } from 'astro:assets';
+import heroImg1 from '../assets/hero/DSC00130.jpg';
+import heroImg2 from '../assets/hero/RRW09172.JPG';
+import heroImg3 from '../assets/hero/DSC08341.jpg';
+import heroImg4 from '../assets/hero/DSC00360.jpg';
 
 const currentLocale = Astro.currentLocale || defaultLang;
 const t = ui[currentLocale as keyof typeof ui];
 
-const heroImages = [
-  '/images/hotels-catering/DSC00130.jpg',
-  '/images/contracting/RRW09172.JPG',
-  '/images/contracting/DSC08341.jpg',
-  '/images/mashair-catering/DSC00360.jpg'
-];
+const heroImages = [heroImg1, heroImg2, heroImg3, heroImg4];
 ---
 <section class="relative min-h-screen flex items-center justify-center overflow-hidden text-white py-20">
   <div class="absolute inset-0 z-0 bg-black">
@@ -18,10 +18,14 @@ const heroImages = [
         class={`absolute inset-0 transition-opacity duration-1000 ease-in-out hero-bg-image ${index === 0 ? 'opacity-100' : 'opacity-0'}`}
         data-index={index}
       >
-        <img 
+        <Image 
           src={img} 
           alt="Hero Background" 
           class="w-full h-full object-cover opacity-60"
+          widths={[640, 768, 1024, 1280, 1536, 1920]}
+          sizes="100vw"
+          loading={index === 0 ? "eager" : "lazy"}
+          fetchpriority={index === 0 ? "high" : "auto"}
         />
       </div>
     ))}
