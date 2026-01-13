@@ -17,6 +17,7 @@
     "astro": "^5.16.0",
     "embla-carousel": "^8.6.0",
     "embla-carousel-autoplay": "^8.6.0",
+    "photoswipe": "^5.4.4",
     "tailwindcss": "^4.1.17",
     "typescript": "^5.9.3",
     "unhead": "^2.0.19"

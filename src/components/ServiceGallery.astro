@@ -35,7 +35,6 @@ const processedImages = await Promise.all(images.map(async (img, index) => {
     id: index,
     full: full.src,
     thumb: thumb.src,
-    low: low.src,
     w: full.attributes.width,
     h: full.attributes.height,
     isRemote: false
@@ -43,16 +42,21 @@ const processedImages = await Promise.all(images.map(async (img, index) => {
 }));
 ---
 
-<div class="py-12 service-gallery-root" id={galleryId}>
+<link rel="stylesheet" href="https://unpkg.com/photoswipe@5.4.3/dist/photoswipe.css">
+
+<div class="py-12 service-gallery-root pswp-gallery" id={galleryId}>
   <h3 class="text-2xl font-bold mb-8 text-center text-white" data-aos="fade-up">{title}</h3>
   
   <!-- Image Grid -->
   <div class="grid grid-cols-2 md:grid-cols-4 gap-4" data-aos="fade-up" data-aos-delay="100">
     {processedImages.map((img, index) => (
-      <button 
-        class="gallery-trigger relative group overflow-hidden rounded-xl aspect-square w-full cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary"
+      <a 
+        href={img.full}
+        data-pswp-width={img.w}
+        data-pswp-height={img.h}
+        target="_blank"
+        class="gallery-trigger relative group overflow-hidden rounded-xl aspect-square w-full cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary block"
         aria-label={`View image ${index + 1}`}
-        data-index={index}
       >
         <img 
           src={img.thumb} 
@@ -67,343 +71,43 @@ const processedImages = await Promise.all(images.map(async (img, index) => {
             </svg>
           </div>
         </div>
-      </button>
+      </a>
     ))}
-  </div>
-
-  <!-- Lightbox Modal (Vanilla JS Controlled) -->
-  <div 
-    id={`${galleryId}-modal`}
-    class="fixed inset-0 z-[300] bg-black/95 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300"
-    aria-hidden="true"
-  >
-    <!-- Close Button -->
-    <button 
-      class="close-btn absolute top-4 right-4 text-white hover:text-gray-300 z-[310] focus:outline-none p-2"
-    >
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-      </svg>
-    </button>
-
-    <!-- Main Viewport -->
-    <div class="gallery-viewport relative w-full h-full flex items-center justify-center overflow-hidden">
-        <!-- Virtual List Container -->
-        <div class="gallery-track relative w-full h-full flex items-center justify-center">
-            <!-- Slides will be injected here dynamically -->
-        </div>
-    </div>
-      
-    <!-- Navigation -->
-    <button class="prev-btn absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-colors z-[310]">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-      </svg>
-    </button>
-    
-    <button class="next-btn absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-colors z-[310]">
-       <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-      </svg>
-    </button>
-
-    <!-- Thumbnails Strip -->
-    <div class="absolute bottom-4 left-0 right-0 px-4">
-        <div class="thumbnails-track flex justify-center gap-2 overflow-x-auto py-2">
-            <!-- Thumbnails injected dynamically -->
-        </div>
-    </div>
   </div>
 </div>
 
-<script define:vars={{ galleryId, imagesData: processedImages }}>
-// Memory Efficient Gallery Implementation
-class SmartGallery {
-    constructor(id, data) {
-        this.id = id;
-        this.data = data;
-        this.modal = document.getElementById(`${id}-modal`);
-        this.track = this.modal.querySelector('.gallery-track');
-        this.thumbTrack = this.modal.querySelector('.thumbnails-track');
-        
-        this.activeIndex = 0;
-        this.isOpen = false;
-        
-        // Configuration
-        this.config = {
-            windowSize: 1, // How many images to keep in DOM (1 = just current, 3 = prev/curr/next)
-            maxMemoryBytes: 50 * 1024 * 1024, // Soft limit for estimated usage
-            lowEndDevice: this.detectLowEndDevice()
+<script>
+import PhotoSwipeLightbox from 'photoswipe/lightbox';
+import 'photoswipe/style.css';
+
+const initLightbox = () => {
+  const galleries = document.querySelectorAll('.service-gallery-root');
+  
+  galleries.forEach(gallery => {
+    const lightbox = new PhotoSwipeLightbox({
+      gallery: gallery,
+      children: 'a',
+      pswpModule: () => import('photoswipe'),
+      
+      // Optimization settings
+      wheelToZoom: true,
+      bgOpacity: 0.9,
+      showHideAnimationType: 'fade',
+      
+      // Memory management: destroy immediately on close to free RAM
+      returnFocus: false,
+      paddingFn: (viewportSize) => {
+        return {
+          top: 0, bottom: 0, left: 0, right: 0
         };
+      }
+    });
+    
+    lightbox.init();
+  });
+};
 
-        // State
-        this.renderedIndices = new Set();
-        this.imageRefs = new Map(); // WeakRef simulation for cleanup
-        this.resizeTimeout = null;
-
-        this.init();
-    }
-
-    detectLowEndDevice() {
-        // Simple heuristic for older iOS or low memory devices
-        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-        const logicalCores = navigator.hardwareConcurrency || 4;
-        // @ts-ignore
-        const memory = navigator.deviceMemory || 4; 
-        
-        return isIOS || memory < 4 || logicalCores < 4;
-    }
-
-    init() {
-        // Adjust window size based on device capability
-        if (this.config.lowEndDevice) {
-            console.log('[Gallery] Low-end device detected. Using strict memory mode.');
-            this.config.windowSize = 0; // Only render current
-        } else {
-            this.config.windowSize = 1; // Render prev/curr/next
-        }
-
-        this.bindEvents();
-        this.renderThumbnails();
-    }
-
-    bindEvents() {
-        // Open Triggers
-        document.querySelectorAll(`#${this.id} .gallery-trigger`).forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const idx = parseInt(e.currentTarget.dataset.index);
-                this.open(idx);
-            });
-        });
-
-        // Close
-        this.modal.querySelector('.close-btn').addEventListener('click', () => this.close());
-        
-        // Navigation
-        this.modal.querySelector('.prev-btn').addEventListener('click', (e) => {
-            e.stopPropagation();
-            this.prev();
-        });
-        this.modal.querySelector('.next-btn').addEventListener('click', (e) => {
-            e.stopPropagation();
-            this.next();
-        });
-
-        // Keyboard
-        document.addEventListener('keydown', (e) => {
-            if (!this.isOpen) return;
-            if (e.key === 'Escape') this.close();
-            if (e.key === 'ArrowLeft') this.prev();
-            if (e.key === 'ArrowRight') this.next();
-        });
-
-        // Memory Pressure / Visibility
-        document.addEventListener('visibilitychange', () => {
-            if (document.hidden && this.isOpen) {
-                this.performAggressiveCleanup();
-            }
-        });
-    }
-
-    renderThumbnails() {
-        // Render thumbnails once as they are lightweight
-        const fragment = document.createDocumentFragment();
-        this.data.forEach((img, idx) => {
-            const btn = document.createElement('button');
-            btn.className = `w-16 h-16 rounded-md overflow-hidden border-2 transition-all flex-shrink-0 ${idx === this.activeIndex ? 'border-primary scale-110' : 'border-transparent opacity-60'}`;
-            btn.innerHTML = `<img src="${img.thumb}" class="w-full h-full object-cover" loading="lazy">`;
-            btn.onclick = (e) => {
-                e.stopPropagation();
-                this.goTo(idx);
-            };
-            fragment.appendChild(btn);
-        });
-        this.thumbTrack.innerHTML = '';
-        this.thumbTrack.appendChild(fragment);
-    }
-
-    open(index) {
-        this.isOpen = true;
-        this.modal.classList.remove('hidden');
-        // Force reflow
-        void this.modal.offsetWidth;
-        this.modal.classList.remove('opacity-0');
-        document.body.style.overflow = 'hidden'; // Prevent scroll
-        
-        this.goTo(index);
-    }
-
-    close() {
-        this.isOpen = false;
-        this.modal.classList.add('opacity-0');
-        setTimeout(() => {
-            this.modal.classList.add('hidden');
-            this.cleanupDOM(); // Full cleanup on close
-        }, 300);
-        document.body.style.overflow = '';
-    }
-
-    goTo(index) {
-        // Wrap index
-        const len = this.data.length;
-        this.activeIndex = (index + len) % len;
-        
-        this.updateView();
-        this.updateThumbnails();
-    }
-
-    prev() {
-        this.goTo(this.activeIndex - 1);
-    }
-
-    next() {
-        this.goTo(this.activeIndex + 1);
-    }
-
-    updateThumbnails() {
-        const thumbs = this.thumbTrack.children;
-        for (let i = 0; i < thumbs.length; i++) {
-            if (i === this.activeIndex) {
-                thumbs[i].classList.add('border-primary', 'scale-110', 'opacity-100');
-                thumbs[i].classList.remove('border-transparent', 'opacity-60');
-                thumbs[i].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-            } else {
-                thumbs[i].classList.remove('border-primary', 'scale-110', 'opacity-100');
-                thumbs[i].classList.add('border-transparent', 'opacity-60');
-            }
-        }
-    }
-
-    // Core Memory Efficient Rendering Logic
-    updateView() {
-        const indicesToRender = new Set();
-        indicesToRender.add(this.activeIndex);
-        
-        if (this.config.windowSize > 0) {
-            const len = this.data.length;
-            indicesToRender.add((this.activeIndex - 1 + len) % len);
-            indicesToRender.add((this.activeIndex + 1) % len);
-        }
-
-        // 1. Remove images not in window
-        Array.from(this.track.children).forEach(child => {
-            const idx = parseInt(child.dataset.index);
-            if (!indicesToRender.has(idx)) {
-                // Explicitly clear src to help GC
-                const img = child.querySelector('img');
-                if (img) {
-                    img.src = ''; 
-                    img.remove();
-                }
-                child.remove();
-            }
-        });
-
-        // 2. Add new images
-        indicesToRender.forEach(idx => {
-            if (!this.track.querySelector(`[data-index="${idx}"]`)) {
-                const el = this.createSlide(idx);
-                this.track.appendChild(el);
-            }
-        });
-
-        // 3. Update visibility/positions
-        Array.from(this.track.children).forEach(child => {
-            const idx = parseInt(child.dataset.index);
-            const img = child.querySelector('img');
-            
-            if (idx === this.activeIndex) {
-                child.style.display = 'flex';
-                child.style.opacity = '1';
-                child.style.zIndex = '10';
-                if (img && !img.src) this.loadImage(img, idx);
-            } else {
-                // Keep neighbors invisible but ready
-                child.style.display = 'flex'; // Keep in layout but hidden
-                child.style.opacity = '0';
-                child.style.zIndex = '0';
-            }
-        });
-    }
-
-    createSlide(index) {
-        const div = document.createElement('div');
-        div.className = 'absolute inset-0 flex items-center justify-center transition-opacity duration-300';
-        div.dataset.index = index;
-        
-        // Placeholder or Spinner
-        div.innerHTML = `
-            <div class="loading-spinner absolute inset-0 flex items-center justify-center text-white/50">
-                <svg class="animate-spin h-8 w-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-            </div>
-        `;
-        
-        // Image element created but source not set immediately if not active
-        const img = document.createElement('img');
-        img.className = 'max-w-full max-h-full object-contain shadow-2xl opacity-0 transition-opacity duration-300';
-        img.alt = `Gallery full image ${index + 1}`;
-        
-        // Load immediately if active, else wait
-        if (index === this.activeIndex) {
-            this.loadImage(img, index);
-        } else {
-            // Lazy load neighbors
-            setTimeout(() => {
-                if (document.body.contains(div)) this.loadImage(img, index);
-            }, 300);
-        }
-
-        div.appendChild(img);
-        return div;
-    }
-
-    loadImage(imgEl, index) {
-        if (imgEl.src && imgEl.src.length > 0) return; // Already loaded
-
-        const data = this.data[index];
-        // Use low quality if low-end device
-        const src = this.config.lowEndDevice ? data.low : data.full;
-        
-        imgEl.onload = () => {
-            imgEl.classList.remove('opacity-0');
-            // Remove spinner
-            const spinner = imgEl.parentElement.querySelector('.loading-spinner');
-            if (spinner) spinner.remove();
-        };
-        
-        imgEl.src = src;
-    }
-
-    performAggressiveCleanup() {
-        console.log('[Gallery] Performing aggressive memory cleanup...');
-        // Remove everything except current index
-        Array.from(this.track.children).forEach(child => {
-            const idx = parseInt(child.dataset.index);
-            if (idx !== this.activeIndex) {
-                const img = child.querySelector('img');
-                if (img) img.src = '';
-                child.remove();
-            }
-        });
-        
-        // Optional: Force garbage collection hint (not real JS API, but clearing references helps)
-        if (window.gc) window.gc();
-    }
-
-    cleanupDOM() {
-        this.track.innerHTML = ''; // Nuke everything
-    }
-}
-
-// Initialize
-document.addEventListener('astro:page-load', () => {
-   new SmartGallery(galleryId, imagesData);
-});
-// Fallback for non-ViewTransitions
-if (!document.querySelector('meta[name="astro-view-transitions-enabled"]')) {
-    new SmartGallery(galleryId, imagesData);
-}
+// Initialize on load and after View Transitions
+initLightbox();
+document.addEventListener('astro:after-swap', initLightbox);
 </script>
