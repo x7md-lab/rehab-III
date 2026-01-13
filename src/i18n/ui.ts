@@ -72,7 +72,7 @@ export const ui = {
     
     'faq.title': 'الأسئلة الشائعة',
     'faq.q1': 'ما هي الخدمات الرئيسية التي تقدمها شركة رحاب؟',
-    'faq.a1': 'تقدم شركة رحاب مجموعة واسعة من الخدمات تشمل التموين والإعاشة، المقاولات والتجهيزات، الإدارة والتشغيل، الخدمات اللوجستية، والاستشارات الفنية والتشغيلية، بالإضافة إلى خدمات حجاج الخارج والتطوير العقاري.',
+    'faq.a1': 'تقدم شركة رحاب مجموعة واسعة من الخدمات تشمل التموين والإعاشة، المقاولات والتجهيزات، الإدارة والتشغيل، الخدمات اللوجستية، والاستشارات الفنية والتشغيلية، بالإضافة إلى خدمات حجاج الخارج.',
     'faq.q2': 'أين يقع المقر الرئيسي للشركة؟',
     'faq.a2': 'يقع مقرنا الرئيسي في مدينة مكة المكرمة، حي الرصيفة، الجروشي مول.',
     'faq.q3': 'متى تأسست شركة رحاب؟',
@@ -148,7 +148,7 @@ export const ui = {
 
     'faq.title': 'Frequently Asked Questions',
     'faq.q1': 'What are the main services provided by Rehab Co.?',
-    'faq.a1': 'Rehab Co. provides a wide range of services including catering and subsistence, contracting and equipment, management and operation, logistics services, technical and operational consulting, as well as pilgrim services and real estate development.',
+    'faq.a1': 'Rehab Co. provides a wide range of services including catering and subsistence, contracting and equipment, management and operation, logistics services, technical and operational consulting, as well as pilgrim services.',
     'faq.q2': 'Where is the company\'s headquarters located?',
     'faq.a2': 'Our headquarters is located in Makkah, Al Rusaifah, Al Jaroushi Mall.',
     'faq.q3': 'When was Rehab Co. founded?',

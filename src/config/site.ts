@@ -15,8 +15,7 @@ export const SITE = {
         "خدمات التسويق", 
         "تقديم الاستشارات الفنية والتشغيلية", 
         "تقديم البرامج السياحية", 
-        "خدمات الإدارة والتشغيل", 
-        "خدمة التطوير العقاري"
+        "خدمات الإدارة والتشغيل"
       ],
       contact: {
         address: {
@@ -39,8 +38,7 @@ export const SITE = {
         "Marketing Services", 
         "Providing technical and operational consulting", 
         "Providing tourism programs", 
-        "Management and Operation Services", 
-        "Real Estate Development Service"
+        "Management and Operation Services"
       ],
       contact: {
         address: {
