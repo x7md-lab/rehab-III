@@ -27,6 +27,7 @@ const homeLink = currentLocale === 'ar' ? '/' : '/en';
         <h3 class="text-lg font-bold mb-6 text-gold">{t['footer.links']}</h3>
         <ul class="space-y-3">
           <li><a href={homeLink} class="text-sm text-gray-300 hover:text-white hover:translate-x-1 transition-all inline-block">{t['nav.home']}</a></li>
+          <li><a href="#" class="text-sm text-gray-300 hover:text-white hover:translate-x-1 transition-all inline-block">{t['nav.chairman']}</a></li>
           <li><a href="#vision" class="text-sm text-gray-300 hover:text-white hover:translate-x-1 transition-all inline-block">{t['nav.vision']}</a></li>
           <li><a href="#services" class="text-sm text-gray-300 hover:text-white hover:translate-x-1 transition-all inline-block">{t['nav.services']}</a></li>
           <li><a href="#contact" class="text-sm text-gray-300 hover:text-white hover:translate-x-1 transition-all inline-block">{t['nav.contact']}</a></li>
@@ -71,6 +72,18 @@ const homeLink = currentLocale === 'ar' ? '/' : '/en';
             <div>
                 <span class="block text-xs text-gray-400 mb-1 uppercase tracking-wider">{t['footer.phone']}</span>
                 <a href={`tel:${t['contact.phone_value']}`} class="text-sm text-white hover:text-gold transition-colors" dir="ltr">{t['contact.phone_value']}</a>
+            </div>
+          </li>
+
+          <li class="flex items-start gap-4">
+            <div class="mt-1 bg-black/20 p-2 rounded-full">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            </div>
+            <div>
+                <span class="block text-xs text-gray-400 mb-1 uppercase tracking-wider">{t['footer.working_hours']}</span>
+                <span class="text-sm text-white">{t['contact.working_hours_value']}</span>
             </div>
           </li>
         </ul>

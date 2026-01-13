@@ -1,23 +1,17 @@
 ---
-import { Image } from 'astro:assets';
 import { defaultLang } from '../i18n/ui';
-import img1 from '../assets/team/DSC00736.jpg';
-import img2 from '../assets/team/DSC00025.jpg';
-import img3 from '../assets/team/DSC01116.jpg';
-import img4 from '../assets/team/DSC01135.jpg';
-import img5 from '../assets/team/DSC09476.jpg';
-import img6 from "../assets/team/DSC00136.jpg"
 
 const currentLocale = Astro.currentLocale || defaultLang;
 const isRtl = currentLocale === 'ar';
 
 const images = [
-  img1,
-  img2,
-  img3,
-  img4,
-  img5,
-  img6
+  '/images/hotels-catering/FJR09968.jpg',
+  '/images/contracting/RRW09158.JPG',
+  '/images/hotels-catering/HSN09855.jpg',
+  '/images/contracting/RRW09192.JPG',
+  '/images/mashair-catering/DSC09962.jpg',
+  '/images/hotels-catering/DSC09386.JPG',
+  '/images/hotels-catering/DSC00147.jpg'
 ];
 ---
 
@@ -46,14 +40,12 @@ const images = [
       <div class="embla overflow-hidden cursor-grab active:cursor-grabbing h-full">
         <div class="embla__container flex -ms-4 h-full">
           {images.map((image, index) => (
-            <div class="embla__slide flex-[0_0_100%] sm:flex-[0_0_50%] min-w-0 ps-4 h-full">
+            <div class="embla__slide flex-[0_0_100%] min-w-0 ps-4 h-full">
               <div class="relative group overflow-hidden rounded-xl shadow-lg h-full">
-                <Image 
+                <img 
                   src={image} 
-                  alt={`Rehab Team Image ${index + 1}`} 
+                  alt={`Rehab Gallery Image ${index + 1}`} 
                   class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  widths={[400, 800, image.width]}
-                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 />
                 <div class="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors duration-300"></div>
               </div>

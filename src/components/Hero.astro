@@ -1,20 +1,30 @@
 ---
 import { ui, defaultLang } from '../i18n/ui';
-import { Image } from 'astro:assets';
-import heroBg from '../assets/DSC08369.jpg';
 
 const currentLocale = Astro.currentLocale || defaultLang;
 const t = ui[currentLocale as keyof typeof ui];
+
+const heroImages = [
+  '/images/hotels-catering/DSC00130.jpg',
+  '/images/contracting/RRW09172.JPG',
+  '/images/contracting/DSC08341.jpg',
+  '/images/mashair-catering/DSC00360.jpg'
+];
 ---
 <section class="relative min-h-screen flex items-center justify-center overflow-hidden text-white py-20">
-  <div class="absolute inset-0 z-0">
-    <Image 
-      src={heroBg} 
-      alt="Hero Background" 
-      class="w-full h-full object-cover opacity-40"
-      widths={[640, 768, 1024, 1280, 1536, heroBg.width]}
-      sizes="100vw"
-    />
+  <div class="absolute inset-0 z-0 bg-black">
+    {heroImages.map((img, index) => (
+      <div 
+        class={`absolute inset-0 transition-opacity duration-1000 ease-in-out hero-bg-image ${index === 0 ? 'opacity-100' : 'opacity-0'}`}
+        data-index={index}
+      >
+        <img 
+          src={img} 
+          alt="Hero Background" 
+          class="w-full h-full object-cover opacity-60"
+        />
+      </div>
+    ))}
     <div class="absolute inset-0 bg-gradient-to-b from-[#4D1213] to-transparent mix-blend-multiply opacity-90"></div>
     <div class="absolute inset-0 bg-gradient-to-b from-black/30 to-black/60"></div>
   </div>
@@ -50,3 +60,24 @@ const t = ui[currentLocale as keyof typeof ui];
     </div>
   </div>
 </section>
+
+<script>
+  // Simple vanilla JS slideshow
+  const slides = document.querySelectorAll('.hero-bg-image');
+  let currentSlide = 0;
+  
+  if (slides.length > 0) {
+    setInterval(() => {
+      // Fade out current
+      slides[currentSlide].classList.remove('opacity-100');
+      slides[currentSlide].classList.add('opacity-0');
+      
+      // Move to next
+      currentSlide = (currentSlide + 1) % slides.length;
+      
+      // Fade in next
+      slides[currentSlide].classList.remove('opacity-0');
+      slides[currentSlide].classList.add('opacity-100');
+    }, 5000); // Change every 5 seconds
+  }
+</script>

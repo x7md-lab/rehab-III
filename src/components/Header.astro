@@ -1,11 +1,30 @@
 ---
 import { ui, defaultLang } from '../i18n/ui';
+import { getRelativeLocaleUrl } from 'astro:i18n';
 
 const currentLocale = Astro.currentLocale || defaultLang;
 const t = ui[currentLocale as keyof typeof ui];
 
-const homeLink = currentLocale === 'ar' ? '/' : '/en';
-const langLink = currentLocale === 'ar' ? '/en' : '/';
+const homeLink = getRelativeLocaleUrl(currentLocale, '');
+const chairmanLink = getRelativeLocaleUrl(currentLocale, 'chairman-message');
+
+const services = [
+  { titleKey: 'services.catering.title', slug: 'catering' },
+  { titleKey: 'services.contracting.title', slug: 'contracting' },
+  { titleKey: 'services.management.title', slug: 'management' },
+  { titleKey: 'services.logistics.title', slug: 'logistics' },
+  { titleKey: 'services.consulting.title', slug: 'consulting' },
+];
+
+// Calculate language switch link
+const targetLang = currentLocale === 'ar' ? 'en' : 'ar';
+let currentPath = Astro.url.pathname;
+// Remove 'en' prefix if present to get the pure path
+if (currentLocale === 'en' && currentPath.startsWith('/en')) {
+  currentPath = currentPath.replace(/^\/en/, '');
+}
+
+const langLink = getRelativeLocaleUrl(targetLang, currentPath);
 const langLabel = currentLocale === 'ar' ? 'English' : 'العربية';
 ---
 
@@ -16,11 +35,29 @@ const langLabel = currentLocale === 'ar' ? 'English' : 'العربية';
     </a>
     
     <!-- Desktop Navigation -->
-    <nav class="hidden md:flex gap-6">
+    <nav class="hidden md:flex gap-6 items-center">
       <a href={homeLink} class="text-sm hover:text-secondary transition-colors">{t['nav.home']}</a>
-      <a href="#vision" class="text-sm hover:text-secondary transition-colors">{t['nav.vision']}</a>
-      <a href="#services" class="text-sm hover:text-secondary transition-colors">{t['nav.services']}</a>
-      <a href="#contact" class="text-sm hover:text-secondary transition-colors">{t['nav.contact']}</a>
+            <!-- Services Dropdown -->
+      <details class="group relative desktop-hover">
+        <summary class="list-none cursor-pointer text-sm hover:text-secondary transition-colors flex items-center gap-1 py-4">
+          {t['nav.services']}
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform duration-300 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </summary>
+        <div class={`absolute top-full pt-2 w-56 ${currentLocale === 'ar' ? 'right-0' : 'left-0'}`}>
+            <div class="dropdown-content bg-black/90 backdrop-blur-xl border border-white/10 rounded-xl shadow-xl overflow-hidden flex flex-col py-2 transition-all duration-300 ease-out transform origin-top opacity-0 -translate-y-2 scale-95">
+                {services.map(s => (
+                    <a href={getRelativeLocaleUrl(currentLocale, `services/${s.slug}`)} class="px-4 py-3 text-sm hover:bg-white/10 hover:text-gold transition-colors text-start">
+                    {t[s.titleKey]}
+                    </a>
+                ))}
+            </div>
+        </div>
+      </details>
+      <a href={`${homeLink}#vision`} class="text-sm hover:text-secondary transition-colors">{t['nav.vision']}</a>
+      <a href={chairmanLink} class="text-sm hover:text-secondary transition-colors">{t['nav.chairman']}</a>
+      <a href={`${homeLink}#contact`} class="text-sm hover:text-secondary transition-colors">{t['nav.contact']}</a>
     </nav>
 
     <div class="flex gap-4 items-center">
@@ -37,11 +74,9 @@ const langLabel = currentLocale === 'ar' ? 'English' : 'العربية';
        </button>
     </div>
   </div>
-
-  <!-- Mobile Menu -->
 </header>
 
-<div id="mobile-menu" class="fixed inset-0 z-[100] bg-[#0a1950]/95 backdrop-blur-2xl transition-all duration-500 ease-in-out transform translate-x-full md:hidden flex flex-col items-center justify-center">
+<div id="mobile-menu" class="fixed inset-0 z-[100] bg-[#0a1950]/95 backdrop-blur-2xl transition-all duration-500 ease-in-out transform translate-x-full md:hidden flex flex-col items-center justify-center overflow-y-auto">
   
   <button id="close-menu-btn" class="absolute top-6 left-6 p-2 text-white/60 hover:text-white transition-colors" aria-label="Close Menu">
      <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -49,14 +84,32 @@ const langLabel = currentLocale === 'ar' ? 'English' : 'العربية';
      </svg>
   </button>
 
-  <nav class="flex flex-col space-y-8 text-center">
-    <a href={homeLink} class="text-3xl md:text-4xl font-bold text-white hover:text-gold transition-colors transform hover:scale-110 duration-300">{t['nav.home']}</a>
-    <a href="#vision" class="text-3xl md:text-4xl font-bold text-white hover:text-gold transition-colors transform hover:scale-110 duration-300">{t['nav.vision']}</a>
-    <a href="#services" class="text-3xl md:text-4xl font-bold text-white hover:text-gold transition-colors transform hover:scale-110 duration-300">{t['nav.services']}</a>
-    <a href="#contact" class="text-3xl md:text-4xl font-bold text-white hover:text-gold transition-colors transform hover:scale-110 duration-300">{t['nav.contact']}</a>
+  <nav class="flex flex-col space-y-6 text-center w-full px-8 py-12">
+    <a href={homeLink} class="text-2xl md:text-3xl font-bold text-white hover:text-gold transition-colors">{t['nav.home']}</a>
+    
+    <!-- Mobile Services Dropdown -->
+    <details class="group w-full">
+        <summary class="list-none cursor-pointer text-2xl md:text-3xl font-bold text-white hover:text-gold transition-colors flex items-center justify-center gap-2">
+            {t['nav.services']}
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transition-transform duration-300 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+        </summary>
+        <div class="mt-4 flex flex-col gap-3 w-full bg-white/5 rounded-xl p-4 border border-white/10">
+            {services.map(s => (
+                <a href={getRelativeLocaleUrl(currentLocale, `services/${s.slug}`)} class="text-lg text-white/90 hover:text-gold transition-colors py-2">
+                    {t[s.titleKey]}
+                </a>
+            ))}
+        </div>
+    </details>
+
+    <a href={`${homeLink}#vision`} class="text-2xl md:text-3xl font-bold text-white hover:text-gold transition-colors">{t['nav.vision']}</a>
+    <a href={chairmanLink} class="text-2xl md:text-3xl font-bold text-white hover:text-gold transition-colors">{t['nav.chairman']}</a>
+    <a href={`${homeLink}#contact`} class="text-2xl md:text-3xl font-bold text-white hover:text-gold transition-colors">{t['nav.contact']}</a>
   </nav>
   
-  <div class="absolute bottom-12 opacity-30">
+  <div class="mt-auto mb-12 opacity-30">
       <img src="/logowhte.svg" alt="Rehab Logo" class="h-16 grayscale" />
   </div>
 </div>
@@ -92,9 +145,45 @@ const langLabel = currentLocale === 'ar' ? 'English' : 'العربية';
     }
 
     // Close menu when clicking a link
-    const mobileLinks = mobileMenu.querySelectorAll('a');
-    mobileLinks.forEach(link => {
-      link.addEventListener('click', closeMenu);
+    // Only close if it's not a details summary click
+    mobileMenu.addEventListener('click', (e) => {
+        const target = e.target as HTMLElement;
+        if (target.tagName === 'A' || target.closest('a')) {
+            closeMenu();
+        }
     });
   }
+
+  // Desktop Dropdown Hover Logic
+  const details = document.querySelectorAll('details.desktop-hover');
+  details.forEach(d => {
+    const content = d.querySelector('.dropdown-content');
+    let timeoutId;
+
+    d.addEventListener('mouseenter', () => {
+      if (window.innerWidth >= 768) {
+        clearTimeout(timeoutId);
+        d.setAttribute('open', 'true');
+        // Force reflow
+        void content.offsetWidth; 
+        
+        requestAnimationFrame(() => {
+            content.classList.remove('opacity-0', '-translate-y-2', 'scale-95');
+            content.classList.add('opacity-100', 'translate-y-0', 'scale-100');
+        });
+      }
+    });
+
+    d.addEventListener('mouseleave', () => {
+      if (window.innerWidth >= 768) {
+        // Start exit animation
+        content.classList.remove('opacity-100', 'translate-y-0', 'scale-100');
+        content.classList.add('opacity-0', '-translate-y-2', 'scale-95');
+        
+        timeoutId = setTimeout(() => {
+          d.removeAttribute('open');
+        }, 300); // Wait for transition duration
+      }
+    });
+  });
 </script>

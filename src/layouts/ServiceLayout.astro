@@ -1,0 +1,122 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import ServiceHero from '@/components/ServiceHero.astro';
+import ServiceGallery from '@/components/ServiceGallery.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import { ui } from '@/i18n/ui';
+import type { ServiceData } from '@/lib/serviceData';
+import { SITE } from '@/config/site';
+import { defineWebPage, defineLocalBusiness, defineBreadcrumb } from '@unhead/schema-org';
+
+interface Props {
+  service: ServiceData;
+}
+
+const { service } = Astro.props;
+
+const currentLocale = (Astro.currentLocale || 'ar') as keyof typeof ui;
+const t = ui[currentLocale];
+const isRtl = currentLocale === 'ar';
+const homeUrl = isRtl ? `${SITE.url}/` : `${SITE.url}/en`;
+
+// Get translated content
+const title = t[service.titleKey as keyof typeof t];
+const description = t[service.descKey as keyof typeof t];
+const content = t[service.contentKey as keyof typeof t];
+
+// Schema
+const schemaNodes = [
+  defineWebPage({
+    name: title,
+    description: description,
+    inLanguage: currentLocale,
+  }),
+  defineLocalBusiness({
+    name: t['hero.title_company'],
+    image: '/logowhte.svg',
+    makesOffer: [
+      { 
+        "@type": "Offer", 
+        "itemOffered": { 
+          "@type": "Service", 
+          "name": title,
+          "description": content,
+          "image": service.heroImage
+        } 
+      }
+    ]
+  }),
+  defineBreadcrumb({
+    itemListElement: [
+      { name: t['nav.home'], item: homeUrl },
+      { name: title, item: `${SITE.url}${Astro.url.pathname}` }
+    ]
+  })
+];
+---
+
+<Layout title={`${title} | ${t['hero.title_company']}`} schemaNodes={schemaNodes}>
+  <Header />
+  
+  <main class="pb-20">
+    <ServiceHero 
+      title={title} 
+      subtitle={description} 
+      image={service.heroImage} 
+    />
+
+    <div class="container mx-auto px-4 mt-16">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        <!-- Main Content -->
+        <div class="lg:col-span-2 space-y-8" data-aos="fade-up">
+          <div class="bg-white/5 backdrop-blur-sm rounded-3xl p-8 border border-white/10 shadow-lg">
+            <h2 class="text-3xl font-bold mb-6 text-gold">{title}</h2>
+            <div class="prose prose-lg prose-invert max-w-none">
+              <p class="text-gray-200 leading-relaxed whitespace-pre-line">
+                {content}
+              </p>
+            </div>
+          </div>
+          
+          <!-- Gallery Section -->
+          <ServiceGallery images={service.galleryImages} title={isRtl ? 'معرض الصور' : 'Image Gallery'} />
+        </div>
+
+        <!-- Sidebar / Contact -->
+        <div class="lg:col-span-1 space-y-6">
+          <div class="sticky top-24" data-aos="fade-up" data-aos-delay="200">
+             <div class="bg-primary/90 backdrop-blur-md rounded-3xl p-8 text-white shadow-xl">
+                <h3 class="text-2xl font-bold mb-6">{t['footer.contact_us']}</h3>
+                <p class="mb-6 text-gray-200">{isRtl ? 'تواصل معنا للحصول على هذه الخدمة' : 'Contact us to get this service'}</p>
+                
+                <div class="space-y-4">
+                  <a href={`tel:${t['contact.phone_value']}`} class="flex items-center gap-4 p-3 rounded-xl bg-white/10 hover:bg-white/20 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                    </svg>
+                    <span dir="ltr">{t['contact.phone_value']}</span>
+                  </a>
+                  
+                  <a href={`mailto:${t['contact.email_value']}`} class="flex items-center gap-4 p-3 rounded-xl bg-white/10 hover:bg-white/20 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                    <span>{t['contact.email_value']}</span>
+                  </a>
+                </div>
+
+                <div class="mt-8 pt-6 border-t border-white/20">
+                  <a href="/#contact" class="block w-full text-center bg-gold text-primary font-bold py-3 rounded-full hover:bg-white transition-colors shadow-lg">
+                    {t['nav.contact']}
+                  </a>
+                </div>
+             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  
+  <Footer />
+</Layout>

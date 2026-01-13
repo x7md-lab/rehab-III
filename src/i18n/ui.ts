@@ -8,6 +8,7 @@ export const defaultLang = 'ar';
 export const ui = {
   ar: {
     'nav.home': 'الرئيسية',
+    'nav.chairman': 'كلمة الرئيس',
     'nav.vision': 'رؤيتنا',
     'nav.services': 'خدماتنا',
     'nav.contact': 'اتصل بنا',
@@ -32,14 +33,19 @@ export const ui = {
     'services.title': 'خدماتنا',
     'services.catering.title': 'خدمات التموين والاعاشة',
     'services.catering.desc': 'حلول غذائية متكاملة بأعلى معايير الجودة والسلامة الغذائية لتلبية كافة الاحتياجات.',
+    'services.catering.content': 'نقدم خدمات تموين وإعاشة متكاملة تشمل إعداد وتقديم الوجبات لضيوف الرحمن والمؤسسات والشركات. نلتزم بأعلى معايير الجودة والسلامة الغذائية (HACCP) لضمان تقديم وجبات صحية ولذيذة تلبي جميع الأذواق والاحتياجات الغذائية.',
     'services.contracting.title': 'خدمات المقاولات والتجهيزات',
     'services.contracting.desc': 'تنفيذ مشاريع المقاولات وتجهيز المواقع بأعلى معايير الجودة والكفاءة.',
+    'services.contracting.content': 'نقوم بتنفيذ مشاريع المقاولات المختلفة، بدءاً من الإنشاءات وحتى التشطيبات والتجهيزات الكاملة للمواقع. فريقنا الهندسي والفني يضمن تنفيذ المشاريع بدقة عالية وفي الوقت المحدد، مع الالتزام بالمواصفات والمعايير الهندسية المعتمدة.',
     'services.management.title': 'خدمات الإدارة والتشغيل',
     'services.management.desc': 'إدارة المرافق والمشاريع باحترافية تضمن الاستدامة والتميز في الأداء.',
+    'services.management.content': 'نوفر حلولاً شاملة لإدارة وتشغيل المرافق والمشاريع، بما يضمن استدامتها ورفع كفاءتها التشغيلية. تشمل خدماتنا إدارة الصيانة، النظافة، والأمن، بالإضافة إلى إدارة العمليات اليومية لضمان راحة وسلامة المستفيدين.',
     'services.logistics.title': 'الخدمات اللوجستية',
     'services.logistics.desc': 'إدارة سلاسل الإمداد والنقل بكفاءة عالية لضمان انسيابية العمليات التشغيلية.',
+    'services.logistics.content': 'نقدم خدمات لوجستية متكاملة تشمل النقل، التخزين، وإدارة سلاسل الإمداد. نستخدم أحدث التقنيات لضمان وصول المواد والمنتجات في الوقت والمكان المناسبين، مما يساهم في انسيابية العمليات التشغيلية لشركائنا.',
     'services.consulting.title': 'خدمات تقديم الاستشارات الفنية والتشغيلية',
     'services.consulting.desc': 'خبرات متراكمة لتقديم حلول استشارية ترفع من كفاءة الأداء التشغيلي.',
+    'services.consulting.content': 'نضع خبراتنا الطويلة في خدمة شركائنا من خلال تقديم استشارات فنية وتشغيلية متخصصة. نساعد المؤسسات على تحسين أدائها، تطوير استراتيجياتها، وحل المشكلات التشغيلية التي تواجهها، لضمان تحقيق أهدافها بكفاءة وفاعلية.',
     
     'partners.title': 'شركاء النجاح',
 
@@ -47,14 +53,17 @@ export const ui = {
     'footer.address': 'الموقع',
     'footer.email': 'البريد الإلكتروني',
     'footer.phone': 'الهاتف',
+    'footer.working_hours': 'ساعات العمل',
     'footer.links': 'روابط',
     'footer.rights': 'جميع الحقوق محفوظة لشركة رحاب للخدمات والتسويق المحدودة © 2025',
     'contact.phone_value': '+966561374316',
     'contact.email_value': 'info@rehabco.sa',
-    'contact.address_value': 'مكة المكرمة - الرصيفة - الجروشي مول'
+    'contact.address_value': 'مكة المكرمة - الرصيفة - الجروشي مول',
+    'contact.working_hours_value': '9 صباحاً - 6 مساءً'
   },
   en: {
     'nav.home': 'Home',
+    'nav.chairman': 'Chairman Message',
     'nav.vision': 'Vision',
     'nav.services': 'Services',
     'nav.contact': 'Contact',
@@ -79,14 +88,19 @@ export const ui = {
     'services.title': 'Our Services',
     'services.catering.title': 'Catering and Subsistence',
     'services.catering.desc': 'Integrated food solutions with the highest standards of quality and food safety.',
+    'services.catering.content': 'We provide comprehensive catering and subsistence services, including meal preparation and delivery for the Guests of Allah, institutions, and companies. We adhere to the highest standards of quality and food safety (HACCP) to ensure the provision of healthy and delicious meals that cater to all tastes and dietary needs.',
     'services.contracting.title': 'Contracting and Equipment',
     'services.contracting.desc': 'Executing contracting projects and equipping sites with the highest standards of quality and efficiency.',
+    'services.contracting.content': 'We execute various contracting projects, from construction to finishing and complete site outfitting. Our engineering and technical team ensures projects are executed with high precision and on time, adhering to approved engineering specifications and standards.',
     'services.management.title': 'Management and Operation',
     'services.management.desc': 'Professional facility and project management ensuring sustainability and excellence.',
+    'services.management.content': 'We provide comprehensive solutions for facility and project management and operation, ensuring sustainability and increased operational efficiency. Our services include maintenance management, cleaning, and security, in addition to managing daily operations to ensure the comfort and safety of beneficiaries.',
     'services.logistics.title': 'Logistics Services',
     'services.logistics.desc': 'Efficient supply chain and transport management to ensure smooth operations.',
+    'services.logistics.content': 'We offer integrated logistics services including transportation, warehousing, and supply chain management. We use the latest technologies to ensure materials and products arrive at the right time and place, contributing to the smooth operational flow for our partners.',
     'services.consulting.title': 'Technical and Operational Consulting',
     'services.consulting.desc': 'Accumulated expertise providing consulting solutions to enhance operational efficiency.',
+    'services.consulting.content': 'We place our extensive experience at the service of our partners by providing specialized technical and operational consulting. We help organizations improve their performance, develop their strategies, and solve operational problems they face, ensuring they achieve their goals efficiently and effectively.',
 
     'partners.title': 'Success Partners',
 
@@ -94,10 +108,12 @@ export const ui = {
     'footer.address': 'Address',
     'footer.email': 'Email',
     'footer.phone': 'Phone',
+    'footer.working_hours': 'Working Hours',
     'footer.links': 'Links',
     'footer.rights': 'All rights reserved to Rehab Services and Marketing Co. Ltd. © 2025',
     'contact.phone_value': '+966561374316',
     'contact.email_value': 'info@rehabco.sa',
-    'contact.address_value': 'Makkah - Al Rusaifah - Al Jaroushi Mall'
+    'contact.address_value': 'Makkah - Al Rusaifah - Al Jaroushi Mall',
+    'contact.working_hours_value': '9:00 AM - 6:00 PM'
   },
 } as const;

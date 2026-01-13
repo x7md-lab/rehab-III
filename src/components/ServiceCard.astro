@@ -54,12 +54,18 @@ const accentColor = 'text-gold';
           </h3>
         </div>
 
-        {/* Bottom: Icon */}
-        <div class="w-full flex justify-start items-end">
+        {/* Bottom: Icon & Arrow */}
+        <div class="w-full flex justify-between items-end">
           <div class={`w-20 h-20 rounded-full flex items-center justify-center bg-white/10 border border-white/20 ${accentColor} text-white backdrop-blur-md shadow-[0_8px_32px_0_rgba(0,0,0,0.36)] group-hover:scale-110 group-hover:bg-white/20 transition-all duration-500`}>
             <div class="w-10 h-10 drop-shadow-lg">
               <Fragment set:html={icon} />
             </div>
+          </div>
+
+          <div class={`mb-2 text-gold/80 transition-transform duration-300 group-hover:-translate-x-2 ${!isRtl ? "rotate-180" : ""}`}>
+             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+               <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18" />
+             </svg>
           </div>
         </div>
       </div>
@@ -79,13 +85,13 @@ const accentColor = 'text-gold';
         </p>
 
         <a 
-           href="#contact" 
+           href={isRtl ? `/services/${service.slug}` : `/en/services/${service.slug}`}
            @click.stop
            class="inline-flex items-center justify-center px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 ease-in-out
              bg-white/10 border border-white/20 text-white
              hover:bg-gold hover:border-gold hover:text-white hover:shadow-lg"
          >
-           <span>{isRtl ? 'تواصل معنا' : 'Contact Us'}</span>
+           <span>{t['hero.cta']}</span>
          </a>
       </div>
     </div>

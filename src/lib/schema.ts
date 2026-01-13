@@ -32,6 +32,7 @@ export async function generateSchemaJSON(nodes: any[], locale: 'ar' | 'en' = 'ar
         },
         email: siteData.contact.email,
         telephone: siteData.contact.phone,
+        areaServed: 'SA',
         sameAs: SITE.socialLinks.map(link => link.url),
         hasOfferCatalog: {
           '@type': 'OfferCatalog',
