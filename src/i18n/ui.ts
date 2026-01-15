@@ -18,6 +18,31 @@ export const ui = {
     'projects.direct_hajj.title': 'خدمات الاعاشة لحجاج الحج المباشر',
     'projects.direct_hajj.desc': 'تقديم أرقى خدمات التموين والإعاشة لحجاج الحج المباشر بمهنية عالية.',
     'projects.direct_hajj.content': 'مشروع متكامل لتقديم خدمات الإعاشة والتموين لحجاج الحج المباشر، حيث قمنا بتوفير وجبات غذائية متكاملة ومتنوعة وفق أعلى معايير الجودة والسلامة الغذائية، مع ضمان التوصيل والخدمة المتميزة في جميع المشاعر المقدسة.',
+    
+    'projects.direct_hajj_catering.title': 'خدمات الإعاشة في إعاشة حجاج الحج المباشر بالفنادق',
+    'projects.direct_hajj_catering.desc': 'تقديم خدمات الإعاشة المتميزة لحجاج الحج المباشر في الفنادق بأعلى معايير الجودة.',
+    'projects.direct_hajj_catering.content': 'نقدم خدمات إعاشة متكاملة لحجاج الحج المباشر في الفنادق، مع التركيز على الجودة والتنوع وتلبية كافة الاحتياجات الغذائية لضيوف الرحمن.',
+
+    'projects.holy_sites_catering.title': 'خدمات الإعاشة في إعاشة الحجيج بالمشاعر المقدسة',
+    'projects.holy_sites_catering.desc': 'خدمات إعاشة متخصصة لضيوف الرحمن في المشاعر المقدسة.',
+    'projects.holy_sites_catering.content': 'توفير وجبات صحية ومتنوعة للحجاج في المشاعر المقدسة، مع ضمان سرعة التوزيع والحفاظ على جودة وسلامة الغذاء في أوقات الذروة.',
+
+    'projects.dry_meals.title': 'الوجبات الجافة',
+    'projects.dry_meals.desc': 'تجهيز وتوزيع الوجبات الجافة بجودة عالية.',
+    'projects.dry_meals.content': 'إعداد وتوزيع الوجبات الجافة والمغلفة بعناية لضمان سهولة النقل والتوزيع، مع الحفاظ على القيمة الغذائية والمذاق الممتاز.',
+
+    'projects.water_supply.title': 'إسناد الماء',
+    'projects.water_supply.desc': 'خدمات إسناد وتوزيع المياه للحجاج.',
+    'projects.water_supply.content': 'نضمن توفير وتوزيع مياه الشرب النقية والمبردة للحجاج في مختلف المواقع والمشاعر، لضمان رواء ضيوف الرحمن.',
+
+    'projects.pre_cooked_meals.title': 'إسناد الوجبات مسبقة التحضير الساخنة',
+    'projects.pre_cooked_meals.desc': 'توفير وجبات ساخنة مسبقة التحضير وسريعة التقديم.',
+    'projects.pre_cooked_meals.content': 'نقدم حلولاً مبتكرة عبر الوجبات الساخنة مسبقة التحضير التي تجمع بين الجودة العالية وسرعة التجهيز والتقديم، لتلبية احتياجات الحشود الكبيرة بكفاءة.',
+
+    'projects.contracting_equipment.title': 'خدمات المقاولات والتجهيزات',
+    'projects.contracting_equipment.desc': 'تنفيذ أعمال المقاولات وتجهيز المواقع والمخيمات.',
+    'projects.contracting_equipment.content': 'نقوم بتنفيذ مشاريع المقاولات وتجهيز المواقع والمخيمات بكافة المستلزمات والمرافق الضرورية، لضمان بيئة آمنة ومريحة.',
+
     'projects.ithra_alkhair.title': 'تجهيز مخيمات حجاج شركة إثراء الخير 1446هـ',
     'projects.ithra_alkhair.desc': 'تجهيز وتأثيث مخيمات الحجاج بأعلى المواصفات لضمان راحة ضيوف الرحمن.',
     'projects.ithra_alkhair.content': 'تم تكليفنا بتجهيز وتأثيث مخيمات حجاج شركة إثراء الخير لموسم حج 1446هـ. شمل العمل توفير كافة التجهيزات اللازمة من تكييف، إضاءة، أثاث، ومرافق عامة، بما يضمن بيئة مريحة وآمنة لضيوف الرحمن لأداء مناسكهم بكل طمأنينة.',
@@ -94,6 +119,31 @@ export const ui = {
     'projects.direct_hajj.title': 'Catering Services for Direct Hajj Pilgrims',
     'projects.direct_hajj.desc': 'Providing top-tier catering and subsistence services for direct Hajj pilgrims with high professionalism.',
     'projects.direct_hajj.content': 'An integrated project to provide catering and subsistence services for direct Hajj pilgrims, where we provided comprehensive and diverse meals according to the highest standards of food quality and safety, ensuring delivery and distinguished service in all holy sites.',
+    
+    'projects.direct_hajj_catering.title': 'Catering Services for Direct Hajj Pilgrims in Hotels',
+    'projects.direct_hajj_catering.desc': 'Providing premium catering services for direct Hajj pilgrims in hotels with the highest quality standards.',
+    'projects.direct_hajj_catering.content': 'We offer integrated catering services for direct Hajj pilgrims in hotels, focusing on quality, variety, and meeting all dietary needs of the Guests of Allah.',
+
+    'projects.holy_sites_catering.title': 'Catering Services for Pilgrims in Holy Sites',
+    'projects.holy_sites_catering.desc': 'Specialized catering services for the Guests of Allah in the Holy Sites.',
+    'projects.holy_sites_catering.content': 'Providing healthy and diverse meals for pilgrims in the Holy Sites, ensuring fast distribution and maintaining food quality and safety during peak times.',
+
+    'projects.dry_meals.title': 'Dry Meals',
+    'projects.dry_meals.desc': 'Preparation and distribution of high-quality dry meals.',
+    'projects.dry_meals.content': 'Preparing and distributing carefully packaged dry meals to ensure ease of transport and distribution, while maintaining nutritional value and excellent taste.',
+
+    'projects.water_supply.title': 'Water Supply Support',
+    'projects.water_supply.desc': 'Water supply and distribution services for pilgrims.',
+    'projects.water_supply.content': 'We ensure the provision and distribution of pure and chilled drinking water for pilgrims in various locations and holy sites, ensuring the hydration of the Guests of Allah.',
+
+    'projects.pre_cooked_meals.title': 'Hot Pre-prepared Meals Support',
+    'projects.pre_cooked_meals.desc': 'Providing hot, pre-prepared meals ready for quick serving.',
+    'projects.pre_cooked_meals.content': 'We offer innovative solutions through hot pre-prepared meals that combine high quality with speed of preparation and serving, to efficiently meet the needs of large crowds.',
+
+    'projects.contracting_equipment.title': 'Contracting and Equipment Services',
+    'projects.contracting_equipment.desc': 'Executing contracting works and equipping sites and camps.',
+    'projects.contracting_equipment.content': 'We execute contracting projects and equip sites and camps with all necessary supplies and facilities, ensuring a safe and comfortable environment.',
+
     'projects.ithra_alkhair.title': 'Preparing Hajj Camps for Ithra Al-Khair Co. 1446 AH',
     'projects.ithra_alkhair.desc': 'Preparing and furnishing Hajj camps with the highest specifications to ensure the comfort of the Guests of Allah.',
     'projects.ithra_alkhair.content': 'We were tasked with preparing and furnishing Hajj camps for Ithra Al-Khair Company for the 1446 AH Hajj season. The work included providing all necessary equipment from air conditioning, lighting, furniture, and public facilities, ensuring a comfortable and safe environment for the Guests of Allah to perform their rituals with peace of mind.',

@@ -1,7 +1,7 @@
+
 ---
 import Layout from '@/layouts/Layout.astro';
 import ServiceHero from '@/components/ServiceHero.astro';
-import ServiceGallery from '@/components/ServiceGallery.astro';
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
 import { ui } from '@/i18n/ui';
@@ -25,7 +25,7 @@ const title = t[project.titleKey as keyof typeof t];
 const description = t[project.descKey as keyof typeof t];
 const content = t[project.contentKey as keyof typeof t];
 
-const videoId = project.videoUrl ? (project.videoUrl.match(/v=([^&]+)/) || [])[1] : null;
+const videoId = project.mainVideo;
 
 // Schema
 const schemaNodes = [
@@ -44,7 +44,7 @@ const schemaNodes = [
           "@type": "Service", 
           "name": title,
           "description": content,
-          "image": project.heroImage
+          "image": typeof project.heroImage === 'string' ? project.heroImage : project.heroImage.src
         } 
       }
     ]
@@ -80,32 +80,63 @@ const schemaNodes = [
             <h2 class="text-3xl font-bold mb-6 text-gold">{title}</h2>
             
             {videoId && (
-              <div class="mb-8 rounded-xl overflow-hidden shadow-2xl">
-                <div class="plyr__video-embed" id="player">
-                  <iframe
-                    src={`https://www.youtube.com/embed/${videoId}?origin=https://plyr.io&iv_load_policy=3&modestbranding=1&playsinline=1&showinfo=0&rel=0&enablejsapi=1`}
-                    allowfullscreen
-                    allowtransparency
-                    allow="autoplay"
-                  ></iframe>
+              <div class="space-y-6">
+                <!-- Main Video Player -->
+                <div class="rounded-xl overflow-hidden shadow-2xl aspect-video bg-black">
+                  <div class="plyr__video-embed w-full h-full" id="player">
+                    <iframe
+                      src={`https://www.youtube.com/embed/${videoId}?origin=https://plyr.io&iv_load_policy=3&modestbranding=1&playsinline=1&showinfo=0&rel=0&enablejsapi=1`}
+                      allowfullscreen
+                      allowtransparency
+                      allow="autoplay"
+                    ></iframe>
+                  </div>
                 </div>
+
+                <!-- Sub Videos Grid -->
+                {project.subVideos && project.subVideos.length > 0 && (
+                  <div>
+                    <h3 class="text-xl font-semibold text-white mb-4 border-b border-white/10 pb-2">
+                      {isRtl ? 'مقاطع ذات صلة' : 'Related Videos'}
+                    </h3>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                      {project.subVideos.map((subId, index) => (
+                        <button 
+                          class="sub-video-trigger group relative aspect-video rounded-lg overflow-hidden cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold ring-offset-2 ring-offset-transparent transition-all hover:scale-[1.02]"
+                          data-video-id={subId}
+                          aria-label={isRtl ? `تشغيل المقطع ${index + 1}` : `Play video ${index + 1}`}
+                        >
+                          <img 
+                            src={`https://img.youtube.com/vi/${subId}/hqdefault.jpg`} 
+                            alt={`Video thumbnail ${index + 1}`} 
+                            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 opacity-90 group-hover:opacity-100"
+                            loading="lazy"
+                          />
+                          <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-300"></div>
+                          
+                          {/* Play Icon Overlay */}
+                          <div class="absolute inset-0 flex items-center justify-center">
+                            <div class="bg-primary/80 p-2 rounded-full text-white backdrop-blur-sm group-hover:bg-gold group-hover:text-primary transition-colors transform group-hover:scale-110">
+                              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                              </svg>
+                            </div>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
-              <script is:inline>
-                document.addEventListener('DOMContentLoaded', () => {
-                  const player = new Plyr('#player');
-                });
-              </script>
             )}
 
-            <div class="prose prose-lg prose-invert max-w-none">
+            <div class="prose prose-lg prose-invert max-w-none mt-8 pt-8 border-t border-white/10">
               <p class="text-gray-200 leading-relaxed whitespace-pre-line">
                 {content}
               </p>
             </div>
           </div>
-          
-          <!-- Gallery Section -->
-          <ServiceGallery images={project.galleryImages} title={isRtl ? 'معرض صور المشروع' : 'Project Image Gallery'} />
         </div>
 
         <!-- Sidebar / Contact -->
@@ -144,4 +175,40 @@ const schemaNodes = [
   </main>
   
   <Footer />
+
+  <script is:inline>
+    document.addEventListener('DOMContentLoaded', () => {
+      const player = new Plyr('#player', {
+        controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen'],
+        youtube: { noCookie: true, rel: 0, showinfo: 0, iv_load_policy: 3, modestbranding: 1 }
+      });
+
+      // Sub-video click handler
+      const subVideos = document.querySelectorAll('.sub-video-trigger');
+      subVideos.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const videoId = btn.getAttribute('data-video-id');
+          if (videoId && player) {
+            // Update Plyr source
+            player.source = {
+              type: 'video',
+              sources: [
+                {
+                  src: videoId,
+                  provider: 'youtube',
+                },
+              ],
+            };
+            player.play();
+            
+            // Scroll to player smoothly
+            const playerElement = document.getElementById('player');
+            if (playerElement) {
+              playerElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+          }
+        });
+      });
+    });
+  </script>
 </Layout>
